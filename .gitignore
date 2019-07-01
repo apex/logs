@@ -1,0 +1,5 @@
+.envrc
+node_modules
+dist.browser/
+dist
+js/test.ts
