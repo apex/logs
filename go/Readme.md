@@ -5,7 +5,7 @@ The Go client for Apex Logs.
 
 ## Example
 
-Errors handling is omitted for brevity.
+Error handling is omitted for brevity.
 
 ```go
 c := logs.New("http://localhost:5001")
