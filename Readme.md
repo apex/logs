@@ -1,7 +1,7 @@
 
 # Apex Logs
 
-Client libraries for Apex Logs.
+Client libraries for [Apex Logs](https://apex.sh/logs/).
 
 ## Libraries
 
