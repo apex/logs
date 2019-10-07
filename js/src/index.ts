@@ -193,15 +193,6 @@ interface AddEventsInput {
   events: Event[]
 }
 
-// AddEventsBulkInput params.
-interface AddEventsBulkInput {
-  // project_id is the project id.
-  project_id: string
-
-  // events is the batch of events.
-  events: Event[]
-}
-
 // AddAlertInput params.
 interface AddAlertInput {
   // alert is the alert.
@@ -476,6 +467,9 @@ interface GetStringFieldStatsInput {
 
   // field is the field name.
   field: string
+
+  // limit is the maximum number of values to return.
+  limit: number
 }
 
 // GetStringFieldStatsOutput params.
@@ -560,14 +554,6 @@ export class Client {
 
   async addEvents(params: AddEventsInput) {
     await call(this.url, 'add_events', params)
-  }
-
-  /**
-   * addEventsBulk: ingested a batch of events in bulk.
-   */
-
-  async addEventsBulk(params: AddEventsBulkInput) {
-    await call(this.url, 'add_events_bulk', params)
   }
 
   /**

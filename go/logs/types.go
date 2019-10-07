@@ -199,15 +199,6 @@ type AddEventsInput struct {
   Events []Event `json:"events"`
 }
 
-// AddEventsBulkInput params.
-type AddEventsBulkInput struct {
-  // ProjectID is the project id.
-  ProjectID string `json:"project_id"`
-
-  // Events is the batch of events.
-  Events []Event `json:"events"`
-}
-
 // AddAlertInput params.
 type AddAlertInput struct {
   // Alert is the alert.
@@ -482,6 +473,9 @@ type GetStringFieldStatsInput struct {
 
   // Field is the field name.
   Field string `json:"field"`
+
+  // Limit is the maximum number of values to return.
+  Limit int `json:"limit"`
 }
 
 // GetStringFieldStatsOutput params.

@@ -11,11 +11,6 @@ func (c *Client) AddEvents(in AddEventsInput) error {
   return call(c.URL, "add_events", in, nil)
 }
 
-// AddEventsBulk ingested a batch of events in bulk.
-func (c *Client) AddEventsBulk(in AddEventsBulkInput) error {
-  return call(c.URL, "add_events_bulk", in, nil)
-}
-
 // AddAlert creates a new alert.
 func (c *Client) AddAlert(in AddAlertInput) (*AddAlertOutput, error) {
   var out AddAlertOutput
