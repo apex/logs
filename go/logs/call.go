@@ -18,6 +18,9 @@ type Error struct {
 
 // Error implementation.
 func (e Error) Error() string {
+	if e.Type == "" {
+		return fmt.Sprintf("%s: %d", e.Status, e.StatusCode)
+	}
 	return fmt.Sprintf("%s: %s", e.Type, e.Message)
 }
 
@@ -40,7 +43,6 @@ func call(endpoint, method string, in, out interface{}) error {
 	if err != nil {
 		return err
 	}
-
 	req.Header.Set("Content-Type", "application/json")
 
 	// response
