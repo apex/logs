@@ -17,6 +17,11 @@ func (c *Client) AddAlert(in AddAlertInput) (*AddAlertOutput, error) {
   return &out, call(c.URL, "add_alert", in, &out)
 }
 
+// TestAlert test the alert configuration.
+func (c *Client) TestAlert(in TestAlertInput) error {
+  return call(c.URL, "test_alert", in, nil)
+}
+
 // UpdateAlert updates an alert.
 func (c *Client) UpdateAlert(in UpdateAlertInput) error {
   return call(c.URL, "update_alert", in, nil)
@@ -45,17 +50,17 @@ func (c *Client) AddNotification(in AddNotificationInput) (*AddNotificationOutpu
   return &out, call(c.URL, "add_notification", in, &out)
 }
 
-// UpdateNotification updates an notification.
+// UpdateNotification updates a notification.
 func (c *Client) UpdateNotification(in UpdateNotificationInput) error {
   return call(c.URL, "update_notification", in, nil)
 }
 
-// RemoveNotification removes an notification.
+// RemoveNotification removes a notification.
 func (c *Client) RemoveNotification(in RemoveNotificationInput) error {
   return call(c.URL, "remove_notification", in, nil)
 }
 
-// GetNotification returns an notification.
+// GetNotification returns a notification.
 func (c *Client) GetNotification(in GetNotificationInput) (*GetNotificationOutput, error) {
   var out GetNotificationOutput
   return &out, call(c.URL, "get_notification", in, &out)
@@ -135,5 +140,11 @@ func (c *Client) Query(in QueryInput) (*QueryOutput, error) {
 func (c *Client) Search(in SearchInput) (*SearchOutput, error) {
   var out SearchOutput
   return &out, call(c.URL, "search", in, &out)
+}
+
+// GetCount performs a search query against the log events, returning the number of matches.
+func (c *Client) GetCount(in GetCountInput) (*GetCountOutput, error) {
+  var out GetCountOutput
+  return &out, call(c.URL, "get_count", in, &out)
 }
 

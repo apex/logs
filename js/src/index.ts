@@ -53,6 +53,9 @@ interface StringFieldStat {
 
   // count is the number of times this field occurred in the sampled events.
   count: number
+
+  // percent is the percentage of occurrences in the sampled events.
+  percent: number
 }
 
 // Project represents a customer application.
@@ -203,6 +206,12 @@ interface AddAlertInput {
 class AddAlertOutput {
   // id is the alert id.
   id: string
+}
+
+// TestAlertInput params.
+interface TestAlertInput {
+  // alert is the alert.
+  alert: Alert
 }
 
 // UpdateAlertInput params.
@@ -359,12 +368,18 @@ interface GetDiscoveredFieldsInput {
 
   // stop is the stop timestamp, events after this time are not included.
   stop: Date
+
+  // query is the event search query string.
+  query: string
 }
 
 // GetDiscoveredFieldsOutput params.
 class GetDiscoveredFieldsOutput {
   // fields is the fields discovered.
   fields: DiscoveredField[]
+
+  // stats is the query statistics.
+  stats: QueryStats
 }
 
 // GetTimeseriesInput params.
@@ -392,6 +407,9 @@ interface GetTimeseriesInput {
 class GetTimeseriesOutput {
   // points is the series.
   points: TimeseriesPoint[]
+
+  // stats is the query statistics.
+  stats: QueryStats
 }
 
 // GetLevelTimeseriesInput params.
@@ -419,6 +437,9 @@ interface GetLevelTimeseriesInput {
 class GetLevelTimeseriesOutput {
   // points is the series of datapoints.
   points: LevelTimeseriesPoint[]
+
+  // stats is the query statistics.
+  stats: QueryStats
 }
 
 // GetNumericFieldStatsInput params.
@@ -449,6 +470,9 @@ class GetNumericFieldStatsOutput {
 
   // max is The max value.
   max: number
+
+  // stats is the query statistics.
+  stats: QueryStats
 }
 
 // GetStringFieldStatsInput params.
@@ -476,6 +500,9 @@ interface GetStringFieldStatsInput {
 class GetStringFieldStatsOutput {
   // values is the string values.
   values: StringFieldStat[]
+
+  // stats is the query statistics.
+  stats: QueryStats
 }
 
 // QueryInput params.
@@ -529,6 +556,33 @@ class SearchOutput {
   stats: QueryStats
 }
 
+// GetCountInput params.
+interface GetCountInput {
+  // timeout is a request timeout in seconds, after which a timeout error is returned.
+  timeout: number
+
+  // project_id is the project id.
+  project_id: string
+
+  // start is the start timestamp, events before this time are not included.
+  start: Date
+
+  // stop is the stop timestamp, events after this time are not included.
+  stop: Date
+
+  // query is the event search query string.
+  query: string
+}
+
+// GetCountOutput params.
+class GetCountOutput {
+  // count is the query result count.
+  count: number
+
+  // stats is the query statistics.
+  stats: QueryStats
+}
+
 
 import call from './call'
 
@@ -564,6 +618,14 @@ export class Client {
     let res = await call(this.url, 'add_alert', params)
     let out: AddAlertOutput = JSON.parse(res)
     return out
+  }
+
+  /**
+   * testAlert: test the alert configuration.
+   */
+
+  async testAlert(params: TestAlertInput) {
+    await call(this.url, 'test_alert', params)
   }
 
   /**
@@ -613,7 +675,7 @@ export class Client {
   }
 
   /**
-   * updateNotification: updates an notification.
+   * updateNotification: updates a notification.
    */
 
   async updateNotification(params: UpdateNotificationInput) {
@@ -621,7 +683,7 @@ export class Client {
   }
 
   /**
-   * removeNotification: removes an notification.
+   * removeNotification: removes a notification.
    */
 
   async removeNotification(params: RemoveNotificationInput) {
@@ -629,7 +691,7 @@ export class Client {
   }
 
   /**
-   * getNotification: returns an notification.
+   * getNotification: returns a notification.
    */
 
   async getNotification(params: GetNotificationInput): Promise<GetNotificationOutput> {
@@ -761,6 +823,16 @@ export class Client {
   async search(params: SearchInput): Promise<SearchOutput> {
     let res = await call(this.url, 'search', params)
     let out: SearchOutput = JSON.parse(res)
+    return out
+  }
+
+  /**
+   * getCount: performs a search query against the log events, returning the number of matches.
+   */
+
+  async getCount(params: GetCountInput): Promise<GetCountOutput> {
+    let res = await call(this.url, 'get_count', params)
+    let out: GetCountOutput = JSON.parse(res)
     return out
   }
 

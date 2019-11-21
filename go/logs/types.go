@@ -59,6 +59,9 @@ type StringFieldStat struct {
 
   // Count is the number of times this field occurred in the sampled events.
   Count int `json:"count"`
+
+  // Percent is the percentage of occurrences in the sampled events.
+  Percent float64 `json:"percent"`
 }
 
 // Project represents a customer application.
@@ -209,6 +212,12 @@ type AddAlertInput struct {
 type AddAlertOutput struct {
   // ID is the alert id.
   ID string `json:"id"`
+}
+
+// TestAlertInput params.
+type TestAlertInput struct {
+  // Alert is the alert.
+  Alert Alert `json:"alert"`
 }
 
 // UpdateAlertInput params.
@@ -365,12 +374,18 @@ type GetDiscoveredFieldsInput struct {
 
   // Stop is the stop timestamp, events after this time are not included.
   Stop time.Time `json:"stop"`
+
+  // Query is the event search query string.
+  Query string `json:"query"`
 }
 
 // GetDiscoveredFieldsOutput params.
 type GetDiscoveredFieldsOutput struct {
   // Fields is the fields discovered.
   Fields []DiscoveredField `json:"fields"`
+
+  // Stats is the query statistics.
+  Stats QueryStats `json:"stats"`
 }
 
 // GetTimeseriesInput params.
@@ -398,6 +413,9 @@ type GetTimeseriesInput struct {
 type GetTimeseriesOutput struct {
   // Points is the series.
   Points []TimeseriesPoint `json:"points"`
+
+  // Stats is the query statistics.
+  Stats QueryStats `json:"stats"`
 }
 
 // GetLevelTimeseriesInput params.
@@ -425,6 +443,9 @@ type GetLevelTimeseriesInput struct {
 type GetLevelTimeseriesOutput struct {
   // Points is the series of datapoints.
   Points []LevelTimeseriesPoint `json:"points"`
+
+  // Stats is the query statistics.
+  Stats QueryStats `json:"stats"`
 }
 
 // GetNumericFieldStatsInput params.
@@ -455,6 +476,9 @@ type GetNumericFieldStatsOutput struct {
 
   // Max is The max value.
   Max float64 `json:"max"`
+
+  // Stats is the query statistics.
+  Stats QueryStats `json:"stats"`
 }
 
 // GetStringFieldStatsInput params.
@@ -482,6 +506,9 @@ type GetStringFieldStatsInput struct {
 type GetStringFieldStatsOutput struct {
   // Values is the string values.
   Values []StringFieldStat `json:"values"`
+
+  // Stats is the query statistics.
+  Stats QueryStats `json:"stats"`
 }
 
 // QueryInput params.
@@ -530,6 +557,33 @@ type SearchInput struct {
 type SearchOutput struct {
   // Results is the query results.
   Results []map[string]interface{} `json:"results"`
+
+  // Stats is the query statistics.
+  Stats QueryStats `json:"stats"`
+}
+
+// GetCountInput params.
+type GetCountInput struct {
+  // Timeout is a request timeout in seconds, after which a timeout error is returned.
+  Timeout int `json:"timeout"`
+
+  // ProjectID is the project id.
+  ProjectID string `json:"project_id"`
+
+  // Start is the start timestamp, events before this time are not included.
+  Start time.Time `json:"start"`
+
+  // Stop is the stop timestamp, events after this time are not included.
+  Stop time.Time `json:"stop"`
+
+  // Query is the event search query string.
+  Query string `json:"query"`
+}
+
+// GetCountOutput params.
+type GetCountOutput struct {
+  // Count is the query result count.
+  Count int `json:"count"`
 
   // Stats is the query statistics.
   Stats QueryStats `json:"stats"`

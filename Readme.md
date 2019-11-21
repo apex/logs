@@ -82,7 +82,7 @@
   Events represent the log events ingested by one or more programs in your project. 
 
   - [add_events()](#add_events) — ingested a batch of events.
-  - [count()](#count) — performs a search query against the log events, returning the number of matches.
+  - [get_count()](#get_count) — performs a search query against the log events, returning the number of matches.
   - [get_discovered_fields()](#get_discovered_fields) — returns fields discovered in the provided time range.
   - [get_level_timeseries()](#get_level_timeseries) — returns a timeseries of event counts in the provided time range grouped by severity level.
   - [get_numeric_field_stats()](#get_numeric_field_stats) — returns field statistics for a numeric field.
@@ -96,7 +96,7 @@
   - `project_id` __string__ — The project id.
   - `events` __array__ — The batch of events.
 
-## count
+## get_count
 
   Performs a search query against the log events, returning the number of matches.
   - `timeout` __int__ — A request timeout in seconds, after which a timeout error is returned.
