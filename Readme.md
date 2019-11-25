@@ -1,4 +1,8 @@
 
+# Apex Logs
+
+Client libraries for [Apex Logs](https://apex.sh/logs/).
+
 ### Types
 
   - [Alert](#Alert) — Represents configuration for performing alerting.
