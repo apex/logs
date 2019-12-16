@@ -1,14 +1,14 @@
 
 # Apex Logs
-
+ 
 Client libraries for [Apex Logs](https://apex.sh/logs/).
 
 ### Types
 
   - [Alert](#Alert) — Represents configuration for performing alerting.
+  - [BooleanFieldStat](#BooleanFieldStat) — Represents a boolean field's stats.
   - [DiscoveredField](#DiscoveredField) — Represents a single discovered field.
   - [Event](#Event) — Represents a single log event.
-  - [LevelTimeseriesPoint](#LevelTimeseriesPoint) — Represents a single point in a level timeseries query.
   - [Notification](#Notification) — Represents an alert notification.
   - [Project](#Project) — Represents a customer application.
   - [QueryStats](#QueryStats) — Represents query statistics.
@@ -86,9 +86,9 @@ Client libraries for [Apex Logs](https://apex.sh/logs/).
   Events represent the log events ingested by one or more programs in your project. 
 
   - [add_events()](#add_events) — ingested a batch of events.
+  - [get_boolean_field_stats()](#get_boolean_field_stats) — returns field statistics for a boolean field.
   - [get_count()](#get_count) — performs a search query against the log events, returning the number of matches.
   - [get_discovered_fields()](#get_discovered_fields) — returns fields discovered in the provided time range.
-  - [get_level_timeseries()](#get_level_timeseries) — returns a timeseries of event counts in the provided time range grouped by severity level.
   - [get_numeric_field_stats()](#get_numeric_field_stats) — returns field statistics for a numeric field.
   - [get_string_field_stats()](#get_string_field_stats) — returns field statistics for a string field.
   - [get_timeseries()](#get_timeseries) — returns a timeseries of event counts in the provided time range.
@@ -99,6 +99,20 @@ Client libraries for [Apex Logs](https://apex.sh/logs/).
   Ingested a batch of events.
   - `project_id` __string__ — The project id.
   - `events` __array__ — The batch of events.
+
+## get_boolean_field_stats
+
+  Returns field statistics for a boolean field.
+  - `timeout` __int__ — A request timeout in seconds, after which a timeout error is returned.
+  - `project_id` __string__ — The project id.
+  - `start` __timestamp__ — The start timestamp, events before this time are not included.
+  - `stop` __timestamp__ — The stop timestamp, events after this time are not included.
+  - `field` __string__ — The field name.
+
+  Returns:
+
+  - `values` __array__ — The boolean values.
+  - `stats` [QueryStats](#QueryStats) — The query statistics.
 
 ## get_count
 
@@ -126,21 +140,6 @@ Client libraries for [Apex Logs](https://apex.sh/logs/).
   Returns:
 
   - `fields` __array__ — The fields discovered.
-  - `stats` [QueryStats](#QueryStats) — The query statistics.
-
-## get_level_timeseries
-
-  Returns a timeseries of event counts in the provided time range grouped by severity level.
-  - `timeout` __int__ — A request timeout in seconds, after which a timeout error is returned.
-  - `project_id` __string__ — The project id.
-  - `start` __timestamp__ — The start timestamp, events before this time are not included.
-  - `stop` __timestamp__ — The stop timestamp, events after this time are not included.
-  - `query` __string__ — The SQL query string.
-  - `max_points` __int__ — The maxmimum number of datapoints to return.
-
-  Returns:
-
-  - `points` __array__ — The series of datapoints.
   - `stats` [QueryStats](#QueryStats) — The query statistics.
 
 ## get_numeric_field_stats
@@ -326,6 +325,14 @@ Client libraries for [Apex Logs](https://apex.sh/logs/).
   - `updated_at` __timestamp__ — A timestamp indicating when the alert was last updated.
   - `created_at` __timestamp__ — A timestamp indicating when the alert was created.
 
+## BooleanFieldStat
+
+  The `BooleanFieldStat` type represents a boolean field's stats.
+
+  - `value` __bool__ — The boolean value.
+  - `count` __int__ — The number of times this field occurred in the sampled events.
+  - `percent` __float__ — The percentage of occurrences in the sampled events.
+
 ## DiscoveredField
 
   The `DiscoveredField` type represents a single discovered field.
@@ -344,14 +351,6 @@ Client libraries for [Apex Logs](https://apex.sh/logs/).
   - `message` __string__ — The log message.
   - `fields` __map__ — The log fields.
   - `timestamp` __timestamp__ — The creation timestamp.
-
-## LevelTimeseriesPoint
-
-  The `LevelTimeseriesPoint` type represents a single point in a level timeseries query.
-
-  - `timestamp` __timestamp__ — The bucket timestamp.
-  - `level` __int__ — The severity level.
-  - `count` __int__ — The number of events for this bucket.
 
 ## Notification
 
