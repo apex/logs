@@ -19,18 +19,6 @@ interface TimeseriesPoint {
   count: number
 }
 
-// LevelTimeseriesPoint represents a single point in a level timeseries query.
-interface LevelTimeseriesPoint {
-  // timestamp is the bucket timestamp.
-  timestamp: Date
-
-  // level is the severity level.
-  level: number
-
-  // count is the number of events for this bucket.
-  count: number
-}
-
 // DiscoveredField represents a single discovered field.
 interface DiscoveredField {
   // name is the field name.
@@ -50,6 +38,18 @@ interface DiscoveredField {
 interface StringFieldStat {
   // value is the string value.
   value: string
+
+  // count is the number of times this field occurred in the sampled events.
+  count: number
+
+  // percent is the percentage of occurrences in the sampled events.
+  percent: number
+}
+
+// BooleanFieldStat represents a boolean field's stats.
+interface BooleanFieldStat {
+  // value is the boolean value.
+  value: boolean
 
   // count is the number of times this field occurred in the sampled events.
   count: number
@@ -412,36 +412,6 @@ class GetTimeseriesOutput {
   stats: QueryStats
 }
 
-// GetLevelTimeseriesInput params.
-interface GetLevelTimeseriesInput {
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout: number
-
-  // project_id is the project id.
-  project_id: string
-
-  // start is the start timestamp, events before this time are not included.
-  start: Date
-
-  // stop is the stop timestamp, events after this time are not included.
-  stop: Date
-
-  // query is the SQL query string.
-  query: string
-
-  // max_points is the maxmimum number of datapoints to return.
-  max_points: number
-}
-
-// GetLevelTimeseriesOutput params.
-class GetLevelTimeseriesOutput {
-  // points is the series of datapoints.
-  points: LevelTimeseriesPoint[]
-
-  // stats is the query statistics.
-  stats: QueryStats
-}
-
 // GetNumericFieldStatsInput params.
 interface GetNumericFieldStatsInput {
   // timeout is a request timeout in seconds, after which a timeout error is returned.
@@ -500,6 +470,33 @@ interface GetStringFieldStatsInput {
 class GetStringFieldStatsOutput {
   // values is the string values.
   values: StringFieldStat[]
+
+  // stats is the query statistics.
+  stats: QueryStats
+}
+
+// GetBooleanFieldStatsInput params.
+interface GetBooleanFieldStatsInput {
+  // timeout is a request timeout in seconds, after which a timeout error is returned.
+  timeout: number
+
+  // project_id is the project id.
+  project_id: string
+
+  // start is the start timestamp, events before this time are not included.
+  start: Date
+
+  // stop is the stop timestamp, events after this time are not included.
+  stop: Date
+
+  // field is the field name.
+  field: string
+}
+
+// GetBooleanFieldStatsOutput params.
+class GetBooleanFieldStatsOutput {
+  // values is the boolean values.
+  values: BooleanFieldStat[]
 
   // stats is the query statistics.
   stats: QueryStats
@@ -777,16 +774,6 @@ export class Client {
   }
 
   /**
-   * getLevelTimeseries: returns a timeseries of event counts in the provided time range grouped by severity level.
-   */
-
-  async getLevelTimeseries(params: GetLevelTimeseriesInput): Promise<GetLevelTimeseriesOutput> {
-    let res = await call(this.url, 'get_level_timeseries', params)
-    let out: GetLevelTimeseriesOutput = JSON.parse(res)
-    return out
-  }
-
-  /**
    * getNumericFieldStats: returns field statistics for a numeric field.
    */
 
@@ -803,6 +790,16 @@ export class Client {
   async getStringFieldStats(params: GetStringFieldStatsInput): Promise<GetStringFieldStatsOutput> {
     let res = await call(this.url, 'get_string_field_stats', params)
     let out: GetStringFieldStatsOutput = JSON.parse(res)
+    return out
+  }
+
+  /**
+   * getBooleanFieldStats: returns field statistics for a boolean field.
+   */
+
+  async getBooleanFieldStats(params: GetBooleanFieldStatsInput): Promise<GetBooleanFieldStatsOutput> {
+    let res = await call(this.url, 'get_boolean_field_stats', params)
+    let out: GetBooleanFieldStatsOutput = JSON.parse(res)
     return out
   }
 
