@@ -112,12 +112,6 @@ func (c *Client) GetTimeseries(in GetTimeseriesInput) (*GetTimeseriesOutput, err
   return &out, call(c.URL, "get_timeseries", in, &out)
 }
 
-// GetLevelTimeseries returns a timeseries of event counts in the provided time range grouped by severity level.
-func (c *Client) GetLevelTimeseries(in GetLevelTimeseriesInput) (*GetLevelTimeseriesOutput, error) {
-  var out GetLevelTimeseriesOutput
-  return &out, call(c.URL, "get_level_timeseries", in, &out)
-}
-
 // GetNumericFieldStats returns field statistics for a numeric field.
 func (c *Client) GetNumericFieldStats(in GetNumericFieldStatsInput) (*GetNumericFieldStatsOutput, error) {
   var out GetNumericFieldStatsOutput
@@ -128,6 +122,12 @@ func (c *Client) GetNumericFieldStats(in GetNumericFieldStatsInput) (*GetNumeric
 func (c *Client) GetStringFieldStats(in GetStringFieldStatsInput) (*GetStringFieldStatsOutput, error) {
   var out GetStringFieldStatsOutput
   return &out, call(c.URL, "get_string_field_stats", in, &out)
+}
+
+// GetBooleanFieldStats returns field statistics for a boolean field.
+func (c *Client) GetBooleanFieldStats(in GetBooleanFieldStatsInput) (*GetBooleanFieldStatsOutput, error) {
+  var out GetBooleanFieldStatsOutput
+  return &out, call(c.URL, "get_boolean_field_stats", in, &out)
 }
 
 // Query performs a SQL query against the log events.

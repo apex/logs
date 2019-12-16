@@ -25,18 +25,6 @@ type TimeseriesPoint struct {
   Count int `json:"count"`
 }
 
-// LevelTimeseriesPoint represents a single point in a level timeseries query.
-type LevelTimeseriesPoint struct {
-  // Timestamp is the bucket timestamp.
-  Timestamp time.Time `json:"timestamp"`
-
-  // Level is the severity level.
-  Level int `json:"level"`
-
-  // Count is the number of events for this bucket.
-  Count int `json:"count"`
-}
-
 // DiscoveredField represents a single discovered field.
 type DiscoveredField struct {
   // Name is the field name.
@@ -56,6 +44,18 @@ type DiscoveredField struct {
 type StringFieldStat struct {
   // Value is the string value.
   Value string `json:"value"`
+
+  // Count is the number of times this field occurred in the sampled events.
+  Count int `json:"count"`
+
+  // Percent is the percentage of occurrences in the sampled events.
+  Percent float64 `json:"percent"`
+}
+
+// BooleanFieldStat represents a boolean field's stats.
+type BooleanFieldStat struct {
+  // Value is the boolean value.
+  Value bool `json:"value"`
 
   // Count is the number of times this field occurred in the sampled events.
   Count int `json:"count"`
@@ -418,36 +418,6 @@ type GetTimeseriesOutput struct {
   Stats QueryStats `json:"stats"`
 }
 
-// GetLevelTimeseriesInput params.
-type GetLevelTimeseriesInput struct {
-  // Timeout is a request timeout in seconds, after which a timeout error is returned.
-  Timeout int `json:"timeout"`
-
-  // ProjectID is the project id.
-  ProjectID string `json:"project_id"`
-
-  // Start is the start timestamp, events before this time are not included.
-  Start time.Time `json:"start"`
-
-  // Stop is the stop timestamp, events after this time are not included.
-  Stop time.Time `json:"stop"`
-
-  // Query is the SQL query string.
-  Query string `json:"query"`
-
-  // MaxPoints is the maxmimum number of datapoints to return.
-  MaxPoints int `json:"max_points"`
-}
-
-// GetLevelTimeseriesOutput params.
-type GetLevelTimeseriesOutput struct {
-  // Points is the series of datapoints.
-  Points []LevelTimeseriesPoint `json:"points"`
-
-  // Stats is the query statistics.
-  Stats QueryStats `json:"stats"`
-}
-
 // GetNumericFieldStatsInput params.
 type GetNumericFieldStatsInput struct {
   // Timeout is a request timeout in seconds, after which a timeout error is returned.
@@ -506,6 +476,33 @@ type GetStringFieldStatsInput struct {
 type GetStringFieldStatsOutput struct {
   // Values is the string values.
   Values []StringFieldStat `json:"values"`
+
+  // Stats is the query statistics.
+  Stats QueryStats `json:"stats"`
+}
+
+// GetBooleanFieldStatsInput params.
+type GetBooleanFieldStatsInput struct {
+  // Timeout is a request timeout in seconds, after which a timeout error is returned.
+  Timeout int `json:"timeout"`
+
+  // ProjectID is the project id.
+  ProjectID string `json:"project_id"`
+
+  // Start is the start timestamp, events before this time are not included.
+  Start time.Time `json:"start"`
+
+  // Stop is the stop timestamp, events after this time are not included.
+  Stop time.Time `json:"stop"`
+
+  // Field is the field name.
+  Field string `json:"field"`
+}
+
+// GetBooleanFieldStatsOutput params.
+type GetBooleanFieldStatsOutput struct {
+  // Values is the boolean values.
+  Values []BooleanFieldStat `json:"values"`
 
   // Stats is the query statistics.
   Stats QueryStats `json:"stats"`
