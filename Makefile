@@ -1,12 +1,10 @@
 
-all: Readme.md
+all: docs
 
-Readme.md: $(SCHEMA)
+docs: $(SCHEMA)
 	@echo "==> create $@"
-	@apigen \
-		--schema $(SCHEMA) \
-	  --output md.docs > $@
+	@rpc-docs
 
 clean:
-	@rm -f Readme.md
+	@rm -fr docs
 .PHONY: clean
