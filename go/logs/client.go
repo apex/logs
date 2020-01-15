@@ -6,7 +6,29 @@ type Client struct {
   URL string
 }
 
-// AddEvents ingested a batch of events.
+// AddToken creates a new token.
+func (c *Client) AddToken(in AddTokenInput) (*AddTokenOutput, error) {
+  var out AddTokenOutput
+  return &out, call(c.URL, "add_token", in, &out)
+}
+
+// UpdateToken updates an token.
+func (c *Client) UpdateToken(in UpdateTokenInput) error {
+  return call(c.URL, "update_token", in, nil)
+}
+
+// RemoveToken removes an token.
+func (c *Client) RemoveToken(in RemoveTokenInput) error {
+  return call(c.URL, "remove_token", in, nil)
+}
+
+// GetTokens returns all tokens in a project.
+func (c *Client) GetTokens(in GetTokensInput) (*GetTokensOutput, error) {
+  var out GetTokensOutput
+  return &out, call(c.URL, "get_tokens", in, &out)
+}
+
+// AddEvents ingests a batch of events.
 func (c *Client) AddEvents(in AddEventsInput) error {
   return call(c.URL, "add_events", in, nil)
 }

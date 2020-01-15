@@ -600,7 +600,7 @@ export class Client {
   }
 
   /**
-   * addEvents: ingested a batch of events.
+   * addEvents: ingests a batch of events.
    */
 
   async addEvents(params: AddEventsInput) {

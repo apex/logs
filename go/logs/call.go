@@ -33,7 +33,7 @@ func call(endpoint, method string, in, out interface{}) error {
 		var buf bytes.Buffer
 		err := json.NewEncoder(&buf).Encode(in)
 		if err != nil {
-			return err
+			return fmt.Errorf("encoding: %w", err)
 		}
 		body = &buf
 	}

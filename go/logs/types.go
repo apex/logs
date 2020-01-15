@@ -193,6 +193,69 @@ type Event struct {
   Timestamp time.Time `json:"timestamp"`
 }
 
+// Token represents an API token.
+type Token struct {
+  // ID is the token.
+  ID string `json:"id"`
+
+  // ProjectID is the associated project id.
+  ProjectID string `json:"project_id"`
+
+  // Description is the description of the token.
+  Description string `json:"description"`
+
+  // Read is the token permits reading of data.
+  Read bool `json:"read"`
+
+  // Write is the token permits writing of data.
+  Write bool `json:"write"`
+
+  // LastUsedAt is a timestamp indicating when the token was last used.
+  LastUsedAt time.Time `json:"last_used_at"`
+
+  // CreatedAt is a timestamp indicating when the token was created.
+  CreatedAt time.Time `json:"created_at"`
+}
+
+// AddTokenInput params.
+type AddTokenInput struct {
+  // Token is the token.
+  Token Token `json:"token"`
+}
+
+// AddTokenOutput params.
+type AddTokenOutput struct {
+  // ID is the token id.
+  ID string `json:"id"`
+}
+
+// UpdateTokenInput params.
+type UpdateTokenInput struct {
+  // Token is the token.
+  Token Token `json:"token"`
+}
+
+// RemoveTokenInput params.
+type RemoveTokenInput struct {
+  // ProjectID is the project id.
+  ProjectID string `json:"project_id"`
+
+  // TokenID is the token id.
+  TokenID string `json:"token_id"`
+}
+
+// GetTokensInput params.
+type GetTokensInput struct {
+  // ProjectID is the project id.
+  ProjectID string `json:"project_id"`
+}
+
+// GetTokensOutput params.
+type GetTokensOutput struct {
+  // Tokens is the tokens.
+  Tokens []Token `json:"tokens"`
+}
+
 // AddEventsInput params.
 type AddEventsInput struct {
   // ProjectID is the project id.
