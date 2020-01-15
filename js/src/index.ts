@@ -187,6 +187,69 @@ interface Event {
   timestamp: Date
 }
 
+// Token represents an API token.
+interface Token {
+  // id is the token.
+  id: string
+
+  // project_id is the associated project id.
+  project_id: string
+
+  // description is the description of the token.
+  description: string
+
+  // read is the token permits reading of data.
+  read: boolean
+
+  // write is the token permits writing of data.
+  write: boolean
+
+  // last_used_at is a timestamp indicating when the token was last used.
+  last_used_at: Date
+
+  // created_at is a timestamp indicating when the token was created.
+  created_at: Date
+}
+
+// AddTokenInput params.
+interface AddTokenInput {
+  // token is the token.
+  token: Token
+}
+
+// AddTokenOutput params.
+class AddTokenOutput {
+  // id is the token id.
+  id: string
+}
+
+// UpdateTokenInput params.
+interface UpdateTokenInput {
+  // token is the token.
+  token: Token
+}
+
+// RemoveTokenInput params.
+interface RemoveTokenInput {
+  // project_id is the project id.
+  project_id: string
+
+  // token_id is the token id.
+  token_id: string
+}
+
+// GetTokensInput params.
+interface GetTokensInput {
+  // project_id is the project id.
+  project_id: string
+}
+
+// GetTokensOutput params.
+class GetTokensOutput {
+  // tokens is the tokens.
+  tokens: Token[]
+}
+
 // AddEventsInput params.
 interface AddEventsInput {
   // project_id is the project id.
@@ -597,6 +660,42 @@ export class Client {
 
   constructor(params: { url: string }) {
     this.url = params.url
+  }
+
+  /**
+   * addToken: creates a new token.
+   */
+
+  async addToken(params: AddTokenInput): Promise<AddTokenOutput> {
+    let res = await call(this.url, 'add_token', params)
+    let out: AddTokenOutput = JSON.parse(res)
+    return out
+  }
+
+  /**
+   * updateToken: updates an token.
+   */
+
+  async updateToken(params: UpdateTokenInput) {
+    await call(this.url, 'update_token', params)
+  }
+
+  /**
+   * removeToken: removes an token.
+   */
+
+  async removeToken(params: RemoveTokenInput) {
+    await call(this.url, 'remove_token', params)
+  }
+
+  /**
+   * getTokens: returns all tokens in a project.
+   */
+
+  async getTokens(params: GetTokensInput): Promise<GetTokensOutput> {
+    let res = await call(this.url, 'get_tokens', params)
+    let out: GetTokensOutput = JSON.parse(res)
+    return out
   }
 
   /**
