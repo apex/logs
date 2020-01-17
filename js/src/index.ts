@@ -198,11 +198,8 @@ interface Token {
   // description is the description of the token.
   description: string
 
-  // read is the token permits reading of data.
-  read: boolean
-
-  // write is the token permits writing of data.
-  write: boolean
+  // scopes is the token scopes.
+  scopes: string[]
 
   // last_used_at is a timestamp indicating when the token was last used.
   last_used_at: Date
