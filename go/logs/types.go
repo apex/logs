@@ -204,11 +204,8 @@ type Token struct {
   // Description is the description of the token.
   Description string `json:"description"`
 
-  // Read is the token permits reading of data.
-  Read bool `json:"read"`
-
-  // Write is the token permits writing of data.
-  Write bool `json:"write"`
+  // Scopes is the token scopes.
+  Scopes []string `json:"scopes"`
 
   // LastUsedAt is a timestamp indicating when the token was last used.
   LastUsedAt time.Time `json:"last_used_at"`
