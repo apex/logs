@@ -2,14 +2,14 @@
 
 The `get_alert` method returns an alert.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
 `alert_id` | __string__ | The alert id.
 `project_id` | __string__ | The project id.
 
-  Results:
+  Outputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

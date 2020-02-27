@@ -2,7 +2,7 @@
 
 The `remove_notification` method removes a notification.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

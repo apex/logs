@@ -11,3 +11,20 @@ __Name__ | __Type__ | __Description__
 `description` | __string__ | The project description.
 `updated_at` | __timestamp__ | A timestamp indicating when the project was last updated.
 `created_at` | __timestamp__ | A timestamp indicating when the project was created.
+
+## Examples
+
+A project configured for a production environment with 60 days of log retention.
+
+```json
+{
+  "created_at": "2019-10-30T11:44:26.005127Z",
+  "description": "Apex production logs",
+  "id": "apex_production",
+  "location": "europe-west2",
+  "name": "Apex Production",
+  "retention": 60,
+  "updated_at": "2019-10-30T11:44:26.005127Z"
+}
+```
+

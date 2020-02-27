@@ -1,16 +1,16 @@
-# add_alert
+# add_token
 
-The `add_alert` method creates a new alert.
+The `add_token` method creates a new token.
 
   Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
-`alert` | [Alert](../types/Alert.md) | The alert.
+`token` | [Token](../types/Token.md) | The token.
 
   Outputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
-`id` | __string__ | The alert id.
+`id` | __string__ | The token id.
 

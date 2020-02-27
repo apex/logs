@@ -3,7 +3,7 @@ all: docs
 
 docs: $(SCHEMA)
 	@echo "==> create $@"
-	@rpc-docs
+	@rpc-md-docs -schema $(SCHEMA)
 
 clean:
 	@rm -fr docs

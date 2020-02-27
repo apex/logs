@@ -2,7 +2,7 @@
 
 The `remove_project` method removes a project.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

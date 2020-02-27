@@ -2,7 +2,7 @@
 
 The `update_project` method updates a project.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

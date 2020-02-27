@@ -2,7 +2,7 @@
 
 The `update_notification` method updates a notification.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

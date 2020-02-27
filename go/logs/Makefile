@@ -1,18 +1,13 @@
 
-all: types.go client.go
-
-types.go: $(SCHEMA)
-	@echo "==> create $@"
-	@apigen \
-		--schema $(SCHEMA) \
-	  --output go.types > $@
+all: client.go
 
 client.go: $(SCHEMA)
 	@echo "==> create $@"
-	@apigen \
-		--schema $(SCHEMA) \
-	  --output go.client > $@
+	@rpc-go-client \
+		-schema $(SCHEMA) \
+		-package logs \
+	  > $@
 
 clean:
-	@rm -f types.go client.go
+	@rm -f client.go
 .PHONY: clean

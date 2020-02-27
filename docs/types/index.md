@@ -9,3 +9,4 @@
   - [QueryStats](./QueryStats.md) — represents query statistics.
   - [StringFieldStat](./StringFieldStat.md) — represents a string field's stats.
   - [TimeseriesPoint](./TimeseriesPoint.md) — represents a single point in a timeseries query.
+  - [Token](./Token.md) — represents an API token.

@@ -2,13 +2,13 @@
 
 The `add_project` method creates a new project.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
 `project` | [Project](../types/Project.md) | The project.
 
-  Results:
+  Outputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

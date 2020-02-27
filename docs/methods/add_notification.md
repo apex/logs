@@ -2,13 +2,13 @@
 
 The `add_notification` method creates a new notification.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
 `notification` | [Notification](../types/Notification.md) | The notification.
 
-  Results:
+  Outputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

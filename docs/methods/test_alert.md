@@ -2,7 +2,7 @@
 
 The `test_alert` method test the alert configuration.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

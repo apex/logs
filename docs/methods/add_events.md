@@ -2,7 +2,7 @@
 
 The `add_events` method ingests a batch of events.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

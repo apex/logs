@@ -9,9 +9,9 @@ dist.browser: src/index.ts
 
 src/index.ts: $(SCHEMA)
 	@echo "==> create $@"
-	@apigen \
-		--schema $(SCHEMA) \
-	  --output ts.client > $@
+	@rpc-ts-client \
+		-schema $(SCHEMA) \
+	  > $@
 
 test:
 	@ts-node -O '{ "target": "es6" }' test.ts

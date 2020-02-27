@@ -2,13 +2,13 @@
 
 The `get_project_stats` method returns project statistics.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
 `project_id` | __string__ | The project id.
 
-  Results:
+  Outputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

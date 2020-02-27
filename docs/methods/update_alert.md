@@ -2,7 +2,7 @@
 
 The `update_alert` method updates an alert.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 

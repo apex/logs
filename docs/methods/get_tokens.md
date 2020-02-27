@@ -1,6 +1,6 @@
-# get_alerts
+# get_tokens
 
-The `get_alerts` method returns all alerts in a project.
+The `get_tokens` method returns all tokens in a project.
 
   Inputs:
 
@@ -12,5 +12,5 @@ __Name__ | __Type__ | __Description__
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
-`alerts` | __array__ of [Alert](../types/Alert.md) | The alerts.
+`tokens` | __array__ of [Token](../types/Token.md) | The tokens.
 

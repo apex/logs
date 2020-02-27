@@ -2,7 +2,7 @@
 
 The `query` method performs a SQL query against the log events.
 
-  Parameters:
+  Inputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
@@ -10,7 +10,7 @@ __Name__ | __Type__ | __Description__
 `query` | __string__ | The SQL query string.
 `timeout` | __integer__ | A request timeout in seconds, after which a timeout error is returned.
 
-  Results:
+  Outputs:
 
 __Name__ | __Type__ | __Description__
 --- | --- | --- | 
