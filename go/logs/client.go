@@ -179,6 +179,27 @@ type QueryStats struct {
 	CacheHit bool `json:"cache_hit"`
 }
 
+// Search represents a saved search query.
+type Search struct {
+	// ID is the saved search id.
+	ID string `json:"id"`
+
+	// Name is the name of the saved search.
+	Name string `json:"name"`
+
+	// ProjectID is the associated project id.
+	ProjectID string `json:"project_id"`
+
+	// Query is the saved search query.
+	Query string `json:"query"`
+
+	// UpdatedAt is a timestamp indicating when the saved search was last updated.
+	UpdatedAt time.Time `json:"updated_at"`
+
+	// CreatedAt is a timestamp indicating when the saved search was created.
+	CreatedAt time.Time `json:"created_at"`
+}
+
 // StringFieldStat represents a string field's stats.
 type StringFieldStat struct {
 	// Value is the string value.
@@ -263,6 +284,18 @@ type AddProjectInput struct {
 // AddProjectOutput params.
 type AddProjectOutput struct {
 	// ID is the project id.
+	ID string `json:"id"`
+}
+
+// AddSearchInput params.
+type AddSearchInput struct {
+	// Search is the saved search.
+	Search Search `json:"search"`
+}
+
+// AddSearchOutput params.
+type AddSearchOutput struct {
+	// ID is the saved search id.
 	ID string `json:"id"`
 }
 
@@ -473,6 +506,18 @@ type GetProjectsOutput struct {
 	Projects []Project `json:"projects"`
 }
 
+// GetSearchesInput params.
+type GetSearchesInput struct {
+	// ProjectID is the project id.
+	ProjectID string `json:"project_id"`
+}
+
+// GetSearchesOutput params.
+type GetSearchesOutput struct {
+	// Searches is the saved searches.
+	Searches []Search `json:"searches"`
+}
+
 // GetStringFieldStatsInput params.
 type GetStringFieldStatsInput struct {
 	// Field is the field name.
@@ -593,6 +638,15 @@ type RemoveProjectInput struct {
 	ProjectID string `json:"project_id"`
 }
 
+// RemoveSearchInput params.
+type RemoveSearchInput struct {
+	// ProjectID is the project id.
+	ProjectID string `json:"project_id"`
+
+	// SearchID is the saved search id.
+	SearchID string `json:"search_id"`
+}
+
 // RemoveTokenInput params.
 type RemoveTokenInput struct {
 	// ProjectID is the project id.
@@ -656,6 +710,22 @@ type UpdateProjectInput struct {
 	Project Project `json:"project"`
 }
 
+// UpdateSearchInput params.
+type UpdateSearchInput struct {
+	// Search is the saved search.
+	Search Search `json:"search"`
+}
+
+// oneOf returns true if s is in the values.
+func oneOf(s string, values []string) bool {
+	for _, v := range values {
+		if s == v {
+			return true
+		}
+	}
+	return false
+}
+
 // Client is the API client.
 type Client struct {
 	// URL is the required API endpoint address.
@@ -683,6 +753,12 @@ func (c *Client) AddNotification(in AddNotificationInput) (*AddNotificationOutpu
 func (c *Client) AddProject(in AddProjectInput) (*AddProjectOutput, error) {
 	var out AddProjectOutput
 	return &out, call(c.URL, "add_project", in, &out)
+}
+
+// AddSearch creates a new saved search.
+func (c *Client) AddSearch(in AddSearchInput) (*AddSearchOutput, error) {
+	var out AddSearchOutput
+	return &out, call(c.URL, "add_search", in, &out)
 }
 
 // AddToken creates a new token.
@@ -751,6 +827,12 @@ func (c *Client) GetProjects() (*GetProjectsOutput, error) {
 	return &out, call(c.URL, "get_projects", nil, &out)
 }
 
+// GetSearches returns all saved searches in a project.
+func (c *Client) GetSearches(in GetSearchesInput) (*GetSearchesOutput, error) {
+	var out GetSearchesOutput
+	return &out, call(c.URL, "get_searches", in, &out)
+}
+
 // GetStringFieldStats returns field statistics for a string field.
 func (c *Client) GetStringFieldStats(in GetStringFieldStatsInput) (*GetStringFieldStatsOutput, error) {
 	var out GetStringFieldStatsOutput
@@ -790,6 +872,11 @@ func (c *Client) RemoveProject(in RemoveProjectInput) error {
 	return call(c.URL, "remove_project", in, nil)
 }
 
+// RemoveSearch removes a saved search.
+func (c *Client) RemoveSearch(in RemoveSearchInput) error {
+	return call(c.URL, "remove_search", in, nil)
+}
+
 // RemoveToken removes a token.
 func (c *Client) RemoveToken(in RemoveTokenInput) error {
 	return call(c.URL, "remove_token", in, nil)
@@ -819,6 +906,11 @@ func (c *Client) UpdateNotification(in UpdateNotificationInput) error {
 // UpdateProject updates a project.
 func (c *Client) UpdateProject(in UpdateProjectInput) error {
 	return call(c.URL, "update_project", in, nil)
+}
+
+// UpdateSearch updates a saved search.
+func (c *Client) UpdateSearch(in UpdateSearchInput) error {
+	return call(c.URL, "update_search", in, nil)
 }
 
 // Error is an error returned by the client.
