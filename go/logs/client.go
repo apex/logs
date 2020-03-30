@@ -716,16 +716,6 @@ type UpdateSearchInput struct {
 	Search Search `json:"search"`
 }
 
-// oneOf returns true if s is in the values.
-func oneOf(s string, values []string) bool {
-	for _, v := range values {
-		if s == v {
-			return true
-		}
-	}
-	return false
-}
-
 // Client is the API client.
 type Client struct {
 	// URL is the required API endpoint address.
