@@ -14,3 +14,26 @@ __Name__ | __Type__ | __Description__
 --- | --- | --- | 
 `id` | __string__ | The saved search id.
 
+## Example
+
+An example of a saved search query for reporting related messages.
+
+Input:
+
+```json
+{
+  "name": "Weekly reports",
+  "project_id": "ping_production",
+  "query": "function = \"reporter\" and message in (\"fetching reports\", \"reporting complete\")"
+}
+```
+
+Output:
+
+```json
+{
+  "id": "1ZqPnuhRyStpljCI8ahVSsV9txx"
+}
+```
+
+
