@@ -950,8 +950,10 @@ func call(endpoint, method string, in, out interface{}) error {
 	// error
 	if res.StatusCode >= 300 {
 		var e Error
-		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			return err
+		if res.Header.Get("Content-Type") == "application/json" {
+			if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
+				return err
+			}
 		}
 		e.Status = http.StatusText(res.StatusCode)
 		e.StatusCode = res.StatusCode
