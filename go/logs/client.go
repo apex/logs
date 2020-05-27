@@ -25,13 +25,13 @@ type Alert struct {
 	// Description is the description of the alert.
 	Description string `json:"description"`
 
-	// Severity is the severity of the alert.
+	// Severity is the severity of the alert. Must be one of: "info", "notice", "error", "critical".
 	Severity string `json:"severity"`
 
 	// Query is the query performed by the alert.
 	Query string `json:"query"`
 
-	// Operator is the query performed by the alert.
+	// Operator is the operator used when comparing against the threshold. Must be one of: ">", ">=", "<", "<=".
 	Operator string `json:"operator"`
 
 	// Threshold is the threshold for comparison against the selected operator.
@@ -76,7 +76,7 @@ type DiscoveredField struct {
 	// Name is the field name.
 	Name string `json:"name"`
 
-	// Type is the type of discovered field.
+	// Type is the type of discovered field. Must be one of: "string", "number", "boolean".
 	Type string `json:"type"`
 
 	// Count is the number of times this field occurred in the sampled events.
@@ -91,7 +91,7 @@ type Event struct {
 	// ID is the event id.
 	ID string `json:"id"`
 
-	// Level is the severity level.
+	// Level is the severity level. Must be one of: "debug", "info", "notice", "warning", "error", "critical", "alert", "emergency".
 	Level string `json:"level"`
 
 	// Message is the log message.
@@ -115,7 +115,7 @@ type Notification struct {
 	// Name is the name of the notification.
 	Name string `json:"name"`
 
-	// Type is the type of notification.
+	// Type is the type of notification. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
 	Type string `json:"type"`
 
 	// SlackWebhookURL is the Slack webhook URL.
@@ -154,7 +154,7 @@ type Project struct {
 	// Retention is the retention of log events in days. When zero the logs do not expire.
 	Retention int `json:"retention"`
 
-	// Location is the geographical location where the log events are stored.
+	// Location is the geographical location where the log events are stored. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
 	Location string `json:"location"`
 
 	// Description is the project description.
@@ -716,10 +716,23 @@ type UpdateSearchInput struct {
 	Search Search `json:"search"`
 }
 
+// oneOf returns true if s is in the values.
+func oneOf(s string, values []string) bool {
+	for _, v := range values {
+		if s == v {
+			return true
+		}
+	}
+	return false
+}
+
 // Client is the API client.
 type Client struct {
 	// URL is the required API endpoint address.
 	URL string
+
+	// AuthToken is an optional authentication token.
+	AuthToken string
 
 	// HTTPClient is the client used for making requests, defaulting to http.DefaultClient.
 	HTTPClient *http.Client
@@ -728,182 +741,182 @@ type Client struct {
 // AddAlert creates a new alert.
 func (c *Client) AddAlert(in AddAlertInput) (*AddAlertOutput, error) {
 	var out AddAlertOutput
-	return &out, call(c.HTTPClient, c.URL, "add_alert", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "add_alert", in, &out)
 }
 
 // AddEvents ingests a batch of events.
 func (c *Client) AddEvents(in AddEventsInput) error {
-	return call(c.HTTPClient, c.URL, "add_events", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "add_events", in, nil)
 }
 
 // AddNotification creates a new notification.
 func (c *Client) AddNotification(in AddNotificationInput) (*AddNotificationOutput, error) {
 	var out AddNotificationOutput
-	return &out, call(c.HTTPClient, c.URL, "add_notification", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "add_notification", in, &out)
 }
 
 // AddProject creates a new project.
 func (c *Client) AddProject(in AddProjectInput) (*AddProjectOutput, error) {
 	var out AddProjectOutput
-	return &out, call(c.HTTPClient, c.URL, "add_project", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "add_project", in, &out)
 }
 
 // AddSearch creates a new saved search.
 func (c *Client) AddSearch(in AddSearchInput) (*AddSearchOutput, error) {
 	var out AddSearchOutput
-	return &out, call(c.HTTPClient, c.URL, "add_search", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "add_search", in, &out)
 }
 
 // AddToken creates a new token.
 func (c *Client) AddToken(in AddTokenInput) (*AddTokenOutput, error) {
 	var out AddTokenOutput
-	return &out, call(c.HTTPClient, c.URL, "add_token", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "add_token", in, &out)
 }
 
 // GetAlert returns an alert.
 func (c *Client) GetAlert(in GetAlertInput) (*GetAlertOutput, error) {
 	var out GetAlertOutput
-	return &out, call(c.HTTPClient, c.URL, "get_alert", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_alert", in, &out)
 }
 
 // GetAlerts returns all alerts in a project.
 func (c *Client) GetAlerts(in GetAlertsInput) (*GetAlertsOutput, error) {
 	var out GetAlertsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_alerts", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_alerts", in, &out)
 }
 
 // GetBooleanFieldStats returns field statistics for a boolean field.
 func (c *Client) GetBooleanFieldStats(in GetBooleanFieldStatsInput) (*GetBooleanFieldStatsOutput, error) {
 	var out GetBooleanFieldStatsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_boolean_field_stats", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_boolean_field_stats", in, &out)
 }
 
 // GetCount performs a search query against the log events, returning the number of matches.
 func (c *Client) GetCount(in GetCountInput) (*GetCountOutput, error) {
 	var out GetCountOutput
-	return &out, call(c.HTTPClient, c.URL, "get_count", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_count", in, &out)
 }
 
 // GetDiscoveredFields returns fields discovered in the provided time range.
 func (c *Client) GetDiscoveredFields(in GetDiscoveredFieldsInput) (*GetDiscoveredFieldsOutput, error) {
 	var out GetDiscoveredFieldsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_discovered_fields", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_discovered_fields", in, &out)
 }
 
 // GetNotification returns a notification.
 func (c *Client) GetNotification(in GetNotificationInput) (*GetNotificationOutput, error) {
 	var out GetNotificationOutput
-	return &out, call(c.HTTPClient, c.URL, "get_notification", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_notification", in, &out)
 }
 
 // GetNotifications returns all notifications.
 func (c *Client) GetNotifications(in GetNotificationsInput) (*GetNotificationsOutput, error) {
 	var out GetNotificationsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_notifications", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_notifications", in, &out)
 }
 
 // GetNumericFieldStats returns field statistics for a numeric field.
 func (c *Client) GetNumericFieldStats(in GetNumericFieldStatsInput) (*GetNumericFieldStatsOutput, error) {
 	var out GetNumericFieldStatsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_numeric_field_stats", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_numeric_field_stats", in, &out)
 }
 
 // GetProjectStats returns project statistics.
 func (c *Client) GetProjectStats(in GetProjectStatsInput) (*GetProjectStatsOutput, error) {
 	var out GetProjectStatsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_project_stats", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_project_stats", in, &out)
 }
 
 // GetProjects returns all projects.
 func (c *Client) GetProjects() (*GetProjectsOutput, error) {
 	var out GetProjectsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_projects", nil, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_projects", nil, &out)
 }
 
 // GetSearches returns all saved searches in a project.
 func (c *Client) GetSearches(in GetSearchesInput) (*GetSearchesOutput, error) {
 	var out GetSearchesOutput
-	return &out, call(c.HTTPClient, c.URL, "get_searches", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_searches", in, &out)
 }
 
 // GetStringFieldStats returns field statistics for a string field.
 func (c *Client) GetStringFieldStats(in GetStringFieldStatsInput) (*GetStringFieldStatsOutput, error) {
 	var out GetStringFieldStatsOutput
-	return &out, call(c.HTTPClient, c.URL, "get_string_field_stats", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_string_field_stats", in, &out)
 }
 
 // GetTimeseries returns a timeseries of event counts in the provided time range.
 func (c *Client) GetTimeseries(in GetTimeseriesInput) (*GetTimeseriesOutput, error) {
 	var out GetTimeseriesOutput
-	return &out, call(c.HTTPClient, c.URL, "get_timeseries", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_timeseries", in, &out)
 }
 
 // GetTokens returns all tokens in a project.
 func (c *Client) GetTokens(in GetTokensInput) (*GetTokensOutput, error) {
 	var out GetTokensOutput
-	return &out, call(c.HTTPClient, c.URL, "get_tokens", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_tokens", in, &out)
 }
 
 // Query performs a SQL query against the log events.
 func (c *Client) Query(in QueryInput) (*QueryOutput, error) {
 	var out QueryOutput
-	return &out, call(c.HTTPClient, c.URL, "query", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "query", in, &out)
 }
 
 // RemoveAlert removes an alert.
 func (c *Client) RemoveAlert(in RemoveAlertInput) error {
-	return call(c.HTTPClient, c.URL, "remove_alert", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "remove_alert", in, nil)
 }
 
 // RemoveNotification removes a notification.
 func (c *Client) RemoveNotification(in RemoveNotificationInput) error {
-	return call(c.HTTPClient, c.URL, "remove_notification", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "remove_notification", in, nil)
 }
 
 // RemoveProject removes a project.
 func (c *Client) RemoveProject(in RemoveProjectInput) error {
-	return call(c.HTTPClient, c.URL, "remove_project", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "remove_project", in, nil)
 }
 
 // RemoveSearch removes a saved search.
 func (c *Client) RemoveSearch(in RemoveSearchInput) error {
-	return call(c.HTTPClient, c.URL, "remove_search", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "remove_search", in, nil)
 }
 
 // RemoveToken removes a token.
 func (c *Client) RemoveToken(in RemoveTokenInput) error {
-	return call(c.HTTPClient, c.URL, "remove_token", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "remove_token", in, nil)
 }
 
 // Search performs a search query against the log events.
 func (c *Client) Search(in SearchInput) (*SearchOutput, error) {
 	var out SearchOutput
-	return &out, call(c.HTTPClient, c.URL, "search", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "search", in, &out)
 }
 
 // TestAlert test the alert configuration.
 func (c *Client) TestAlert(in TestAlertInput) error {
-	return call(c.HTTPClient, c.URL, "test_alert", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "test_alert", in, nil)
 }
 
 // UpdateAlert updates an alert.
 func (c *Client) UpdateAlert(in UpdateAlertInput) error {
-	return call(c.HTTPClient, c.URL, "update_alert", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "update_alert", in, nil)
 }
 
 // UpdateNotification updates a notification.
 func (c *Client) UpdateNotification(in UpdateNotificationInput) error {
-	return call(c.HTTPClient, c.URL, "update_notification", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "update_notification", in, nil)
 }
 
 // UpdateProject updates a project.
 func (c *Client) UpdateProject(in UpdateProjectInput) error {
-	return call(c.HTTPClient, c.URL, "update_project", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "update_project", in, nil)
 }
 
 // UpdateSearch updates a saved search.
 func (c *Client) UpdateSearch(in UpdateSearchInput) error {
-	return call(c.HTTPClient, c.URL, "update_search", in, nil)
+	return call(c.HTTPClient, c.AuthToken, c.URL, "update_search", in, nil)
 }
 
 // Error is an error returned by the client.
@@ -923,7 +936,7 @@ func (e Error) Error() string {
 }
 
 // call implementation.
-func call(client *http.Client, endpoint, method string, in, out interface{}) error {
+func call(client *http.Client, authToken, endpoint, method string, in, out interface{}) error {
 	var body io.Reader
 
 	// default client
@@ -947,6 +960,11 @@ func call(client *http.Client, endpoint, method string, in, out interface{}) err
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json")
+
+	// auth token
+	if authToken != "" {
+		req.Header.Set("Authorization", "Bearer "+authToken)
+	}
 
 	// response
 	res, err := client.Do(req)
