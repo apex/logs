@@ -226,9 +226,6 @@ type Token struct {
 	// ID is the token.
 	ID string `json:"id"`
 
-	// ProjectID is the associated project id.
-	ProjectID string `json:"project_id"`
-
 	// Description is the description of the token.
 	Description string `json:"description"`
 
@@ -581,12 +578,6 @@ type GetTimeseriesOutput struct {
 	Stats QueryStats `json:"stats"`
 }
 
-// GetTokensInput params.
-type GetTokensInput struct {
-	// ProjectID is the project id.
-	ProjectID string `json:"project_id"`
-}
-
 // GetTokensOutput params.
 type GetTokensOutput struct {
 	// Tokens is the tokens.
@@ -649,9 +640,6 @@ type RemoveSearchInput struct {
 
 // RemoveTokenInput params.
 type RemoveTokenInput struct {
-	// ProjectID is the project id.
-	ProjectID string `json:"project_id"`
-
 	// TokenID is the token id.
 	TokenID string `json:"token_id"`
 }
@@ -851,10 +839,10 @@ func (c *Client) GetTimeseries(in GetTimeseriesInput) (*GetTimeseriesOutput, err
 	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_timeseries", in, &out)
 }
 
-// GetTokens returns all tokens in a project.
-func (c *Client) GetTokens(in GetTokensInput) (*GetTokensOutput, error) {
+// GetTokens returns all tokens.
+func (c *Client) GetTokens() (*GetTokensOutput, error) {
 	var out GetTokensOutput
-	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_tokens", in, &out)
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_tokens", nil, &out)
 }
 
 // Query performs a SQL query against the log events.
