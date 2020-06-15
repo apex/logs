@@ -6,7 +6,7 @@ client.go: $(SCHEMA)
 	@rpc-go-client \
 		-schema $(SCHEMA) \
 		-package logs \
-	  > $@
+		| gofmt > $@
 
 clean:
 	@rm -f client.go

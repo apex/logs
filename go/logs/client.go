@@ -177,6 +177,9 @@ type QueryStats struct {
 
 	// CacheHit is a boolean indicating if the query was cached.
 	CacheHit bool `json:"cache_hit"`
+
+	// Duration is the query duration in milliseconds.
+	Duration int `json:"duration"`
 }
 
 // Search represents a saved search query.
@@ -648,6 +651,9 @@ type RemoveTokenInput struct {
 type SearchInput struct {
 	// Limit is the maxmimum number of events to return.
 	Limit int `json:"limit"`
+
+	// Order is the query timestamp sort order. Must be one of: "ascending", "descending".
+	Order string `json:"order"`
 
 	// ProjectID is the project id.
 	ProjectID string `json:"project_id"`
