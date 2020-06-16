@@ -746,7 +746,6 @@ async function call(url: string, authToken: string, method: string, params?: any
       err = new Error(`${res.status} ${res.statusText}`)
     }
     throw err
-    return
   }
 
   return res.text()
