@@ -104,6 +104,18 @@ type Event struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
+// InstanceConfig represents an instance's configuration.
+type InstanceConfig struct {
+	// TeamID is the Apex team id.
+	TeamID string `json:"team_id"`
+
+	// ProjectID is the Google Cloud project id.
+	ProjectID string `json:"project_id"`
+
+	// Region is the Google Cloud region id.
+	Region string `json:"region"`
+}
+
 // Notification represents an alert notification.
 type Notification struct {
 	// ID is the notification id.
@@ -420,6 +432,12 @@ type GetDiscoveredFieldsOutput struct {
 
 	// Stats is the query statistics.
 	Stats QueryStats `json:"stats"`
+}
+
+// GetInstanceConfigOutput params.
+type GetInstanceConfigOutput struct {
+	// Config is the instance configuration.
+	Config InstanceConfig `json:"config"`
 }
 
 // GetNotificationInput params.
@@ -795,6 +813,12 @@ func (c *Client) GetCount(in GetCountInput) (*GetCountOutput, error) {
 func (c *Client) GetDiscoveredFields(in GetDiscoveredFieldsInput) (*GetDiscoveredFieldsOutput, error) {
 	var out GetDiscoveredFieldsOutput
 	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_discovered_fields", in, &out)
+}
+
+// GetInstanceConfig returns instance configuration.
+func (c *Client) GetInstanceConfig() (*GetInstanceConfigOutput, error) {
+	var out GetInstanceConfigOutput
+	return &out, call(c.HTTPClient, c.AuthToken, c.URL, "get_instance_config", nil, &out)
 }
 
 // GetNotification returns a notification.
