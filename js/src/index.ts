@@ -724,15 +724,32 @@ import fetch from 'node-fetch'
  * Call method with params via a POST request.
  */
 
-function call(url: string, authToken: string, method: string, params?: any): Promise<string> {
-  return fetch(url + '/' + method, {
+async function call(url: string, authToken: string, method: string, params?: any): Promise<string> {
+  const res = await fetch(url + '/' + method, {
     method: 'POST',
     body: JSON.stringify(params),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${authToken}`
     }
-  }).then(res => res.text())
+  })
+
+  // we have an error, try to parse a well-formed json
+  // error response, otherwise default to status code
+  if (res.status >= 300) {
+    let err
+    try {
+      const { type, message } = await res.json()
+      err = new Error(message)
+      err.type = type
+    } catch {
+      err = new Error(`${res.status} ${res.statusText}`)
+    }
+    throw err
+    return
+  }
+
+  return res.text()
 }
 
 
