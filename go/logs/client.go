@@ -691,8 +691,8 @@ type SearchInput struct {
 
 // SearchOutput params.
 type SearchOutput struct {
-	// Results is the query results.
-	Results []map[string]interface{} `json:"results"`
+	// Events is the query search results.
+	Events []Event `json:"events"`
 
 	// Stats is the query statistics.
 	Stats QueryStats `json:"stats"`
