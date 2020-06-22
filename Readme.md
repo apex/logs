@@ -1,9 +1,5 @@
 
 # Apex Logs
  
-Client libraries for [Apex Logs](https://apex.sh/logs/).
+Client libraries for [Apex Logs](https://apex.sh/logs/). View the [documentation](https://apex.sh/docs/logs/) for details.
 
-## Documentation
-
-- [Types](./docs/types/index.md) — definitions of the types available.
-- [Methods](./docs/methods/index.md) — definitions of the methods available.
