@@ -13,25 +13,25 @@ import (
 
 // Alert represents configuration for performing alerting.
 type Alert struct {
-	// ID is the alert id.
+	// ID is the alert id. This field is read-only.
 	ID string `json:"id"`
 
-	// ProjectID is the associated project id.
+	// ProjectID is the associated project id. This field is required.
 	ProjectID string `json:"project_id"`
 
-	// Name is the name of the alert.
+	// Name is the name of the alert. This field is required.
 	Name string `json:"name"`
 
 	// Description is the description of the alert.
 	Description string `json:"description"`
 
-	// Severity is the severity of the alert. Must be one of: "info", "notice", "error", "critical".
+	// Severity is the severity of the alert. This field is required. Must be one of: "info", "notice", "error", "critical".
 	Severity string `json:"severity"`
 
-	// Query is the query performed by the alert.
+	// Query is the query performed by the alert. This field is required.
 	Query string `json:"query"`
 
-	// Operator is the operator used when comparing against the threshold. Must be one of: ">", ">=", "<", "<=".
+	// Operator is the operator used when comparing against the threshold. This field is required. Must be one of: ">", ">=", "<", "<=".
 	Operator string `json:"operator"`
 
 	// Threshold is the threshold for comparison against the selected operator.
@@ -40,22 +40,19 @@ type Alert struct {
 	// Limit is the maximum number of events in the alert notification.
 	Limit int `json:"limit"`
 
-	// Interval is the interval in minutes for performing the alert.
+	// Interval is the interval in minutes for performing the alert. This field is required.
 	Interval int `json:"interval"`
 
-	// NotificationID is the notification id for reporting alerts, when omitted the alert will not be run.
+	// NotificationID is the notification id for reporting alerts, when omitted the alert will not be run. This field is required.
 	NotificationID string `json:"notification_id"`
 
-	// Triggered is a boolean indicating whether or not the alert is currently triggered.
-	Triggered bool `json:"triggered"`
-
-	// Muted is a boolean used ignore trigger and resolve notifications.
+	// Muted is a boolean used ignore trigger and resolve notifications. This field is required.
 	Muted bool `json:"muted"`
 
-	// UpdatedAt is a timestamp indicating when the alert was last updated.
+	// UpdatedAt is a timestamp indicating when the alert was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// CreatedAt is a timestamp indicating when the alert was created.
+	// CreatedAt is a timestamp indicating when the alert was created. This field is read-only.
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -91,10 +88,10 @@ type Event struct {
 	// ID is the event id.
 	ID string `json:"id"`
 
-	// Level is the severity level. Must be one of: "debug", "info", "notice", "warning", "error", "critical", "alert", "emergency".
+	// Level is the severity level. This field is required. Must be one of: "debug", "info", "notice", "warning", "error", "critical", "alert", "emergency".
 	Level string `json:"level"`
 
-	// Message is the log message.
+	// Message is the log message. This field is required.
 	Message string `json:"message"`
 
 	// Fields is the log fields.
@@ -118,16 +115,16 @@ type InstanceConfig struct {
 
 // Notification represents an alert notification.
 type Notification struct {
-	// ID is the notification id.
+	// ID is the notification id. This field is read-only.
 	ID string `json:"id"`
 
-	// ProjectID is the associated project id.
+	// ProjectID is the associated project id. This field is required.
 	ProjectID string `json:"project_id"`
 
-	// Name is the name of the notification.
+	// Name is the name of the notification. This field is required.
 	Name string `json:"name"`
 
-	// Type is the type of notification. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
+	// Type is the type of notification. This field is required. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
 	Type string `json:"type"`
 
 	// SlackWebhookURL is the Slack webhook URL.
@@ -148,34 +145,34 @@ type Notification struct {
 	// PagerdutyServiceKey is the PagerDuty service key.
 	PagerdutyServiceKey string `json:"pagerduty_service_key"`
 
-	// UpdatedAt is a timestamp indicating when the notification was last updated.
+	// UpdatedAt is a timestamp indicating when the notification was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// CreatedAt is a timestamp indicating when the notification was created.
+	// CreatedAt is a timestamp indicating when the notification was created. This field is read-only.
 	CreatedAt time.Time `json:"created_at"`
 }
 
 // Project represents a customer application.
 type Project struct {
-	// ID is the project id.
+	// ID is the project id. This field is read-only.
 	ID string `json:"id"`
 
-	// Name is the human-friendly project name.
+	// Name is the human-friendly project name. This field is required.
 	Name string `json:"name"`
 
 	// Retention is the retention of log events in days. When zero the logs do not expire.
 	Retention int `json:"retention"`
 
-	// Location is the geographical location where the log events are stored. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
+	// Location is the geographical location where the log events are stored. This field is required. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
 	Location string `json:"location"`
 
 	// Description is the project description.
 	Description string `json:"description"`
 
-	// UpdatedAt is a timestamp indicating when the project was last updated.
+	// UpdatedAt is a timestamp indicating when the project was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// CreatedAt is a timestamp indicating when the project was created.
+	// CreatedAt is a timestamp indicating when the project was created. This field is read-only.
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -196,22 +193,22 @@ type QueryStats struct {
 
 // Search represents a saved search query.
 type Search struct {
-	// ID is the saved search id.
+	// ID is the saved search id. This field is read-only.
 	ID string `json:"id"`
 
-	// Name is the name of the saved search.
+	// Name is the name of the saved search. This field is required.
 	Name string `json:"name"`
 
-	// ProjectID is the associated project id.
+	// ProjectID is the associated project id. This field is required.
 	ProjectID string `json:"project_id"`
 
-	// Query is the saved search query.
+	// Query is the saved search query. This field is required.
 	Query string `json:"query"`
 
-	// UpdatedAt is a timestamp indicating when the saved search was last updated.
+	// UpdatedAt is a timestamp indicating when the saved search was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// CreatedAt is a timestamp indicating when the saved search was created.
+	// CreatedAt is a timestamp indicating when the saved search was created. This field is read-only.
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -238,82 +235,82 @@ type TimeseriesPoint struct {
 
 // Token represents an API token.
 type Token struct {
-	// ID is the token.
+	// ID is the token. This field is read-only.
 	ID string `json:"id"`
 
 	// Description is the description of the token.
 	Description string `json:"description"`
 
-	// Scopes is available to this token, permitting access to read and write data.
+	// Scopes is available to this token, permitting access to read and write data. This field is required.
 	Scopes []string `json:"scopes"`
 
-	// LastUsedAt is a timestamp indicating when the token was last used.
+	// LastUsedAt is a timestamp indicating when the token was last used. This field is read-only.
 	LastUsedAt time.Time `json:"last_used_at"`
 
-	// CreatedAt is a timestamp indicating when the token was created.
+	// CreatedAt is a timestamp indicating when the token was created. This field is read-only.
 	CreatedAt time.Time `json:"created_at"`
 }
 
 // AddAlertInput params.
 type AddAlertInput struct {
-	// Alert is the alert.
+	// Alert is the alert. This field is required.
 	Alert Alert `json:"alert"`
 }
 
 // AddAlertOutput params.
 type AddAlertOutput struct {
-	// ID is the alert id.
+	// ID is the alert id. This field is required.
 	ID string `json:"id"`
 }
 
 // AddEventsInput params.
 type AddEventsInput struct {
-	// Events is the batch of events.
+	// Events is the batch of events. This field is required.
 	Events []Event `json:"events"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // AddNotificationInput params.
 type AddNotificationInput struct {
-	// Notification is the notification.
+	// Notification is the notification. This field is required.
 	Notification Notification `json:"notification"`
 }
 
 // AddNotificationOutput params.
 type AddNotificationOutput struct {
-	// ID is the notification id.
+	// ID is the notification id. This field is required.
 	ID string `json:"id"`
 }
 
 // AddProjectInput params.
 type AddProjectInput struct {
-	// Project is the project.
+	// Project is the project. This field is required.
 	Project Project `json:"project"`
 }
 
 // AddProjectOutput params.
 type AddProjectOutput struct {
-	// ID is the project id.
+	// ID is the project id. This field is required.
 	ID string `json:"id"`
 }
 
 // AddSearchInput params.
 type AddSearchInput struct {
-	// Search is the saved search.
+	// Search is the saved search. This field is required.
 	Search Search `json:"search"`
 }
 
 // AddSearchOutput params.
 type AddSearchOutput struct {
-	// ID is the saved search id.
+	// ID is the saved search id. This field is required.
 	ID string `json:"id"`
 }
 
 // AddTokenInput params.
 type AddTokenInput struct {
-	// Token is the token.
+	// Token is the token. This field is required.
 	Token Token `json:"token"`
 }
 
@@ -325,112 +322,103 @@ type AddTokenOutput struct {
 
 // GetAlertInput params.
 type GetAlertInput struct {
-	// AlertID is the alert id.
+	// AlertID is the alert id. This field is required.
 	AlertID string `json:"alert_id"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // GetAlertOutput params.
 type GetAlertOutput struct {
-	// Alert is the alert.
+	// Alert is the alert. This field is required.
 	Alert Alert `json:"alert"`
 }
 
 // GetAlertsInput params.
 type GetAlertsInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // GetAlertsOutput params.
 type GetAlertsOutput struct {
-	// Alerts is the alerts.
+	// Alerts is the alerts. This field is required.
 	Alerts []Alert `json:"alerts"`
 }
 
 // GetBooleanFieldStatsInput params.
 type GetBooleanFieldStatsInput struct {
-	// Field is the field name.
+	// Field is the field name. This field is required.
 	Field string `json:"field"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
 	// Query is the search query string.
 	Query string `json:"query"`
 
-	// Start is the start timestamp, events before this time are not included.
+	// Start is the start timestamp, events before this time are not included. This field is required.
 	Start time.Time `json:"start"`
 
-	// Stop is the stop timestamp, events after this time are not included.
+	// Stop is the stop timestamp, events after this time are not included. This field is required.
 	Stop time.Time `json:"stop"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // GetBooleanFieldStatsOutput params.
 type GetBooleanFieldStatsOutput struct {
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 
-	// Values is the boolean values.
+	// Values is the boolean values. This field is required.
 	Values []BooleanFieldStat `json:"values"`
 }
 
 // GetCountInput params.
 type GetCountInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
 	// Query is the search query string.
 	Query string `json:"query"`
 
-	// Start is the start timestamp, events before this time are not included.
+	// Start is the start timestamp, events before this time are not included. This field is required.
 	Start time.Time `json:"start"`
 
-	// Stop is the stop timestamp, events after this time are not included.
+	// Stop is the stop timestamp, events after this time are not included. This field is required.
 	Stop time.Time `json:"stop"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // GetCountOutput params.
 type GetCountOutput struct {
-	// Count is the query result count.
+	// Count is the query result count. This field is required.
 	Count int `json:"count"`
 
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 }
 
 // GetDiscoveredFieldsInput params.
 type GetDiscoveredFieldsInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
 	// Query is the search query string.
 	Query string `json:"query"`
 
-	// Start is the start timestamp, events before this time are not included.
+	// Start is the start timestamp, events before this time are not included. This field is required.
 	Start time.Time `json:"start"`
 
-	// Stop is the stop timestamp, events after this time are not included.
+	// Stop is the stop timestamp, events after this time are not included. This field is required.
 	Stop time.Time `json:"stop"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // GetDiscoveredFieldsOutput params.
 type GetDiscoveredFieldsOutput struct {
-	// Fields is the fields discovered.
+	// Fields is the fields discovered. This field is required.
 	Fields []DiscoveredField `json:"fields"`
 
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 }
 
@@ -442,91 +430,88 @@ type GetInstanceConfigOutput struct {
 
 // GetNotificationInput params.
 type GetNotificationInput struct {
-	// NotificationID is the notification id.
+	// NotificationID is the notification id. This field is required.
 	NotificationID string `json:"notification_id"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // GetNotificationOutput params.
 type GetNotificationOutput struct {
-	// Notification is the notification.
+	// Notification is the notification. This field is required.
 	Notification Notification `json:"notification"`
 }
 
 // GetNotificationsInput params.
 type GetNotificationsInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // GetNotificationsOutput params.
 type GetNotificationsOutput struct {
-	// Notifications is the notifications.
+	// Notifications is the notifications. This field is required.
 	Notifications []Notification `json:"notifications"`
 }
 
 // GetNumericFieldStatsInput params.
 type GetNumericFieldStatsInput struct {
-	// Field is the field name.
+	// Field is the field name. This field is required.
 	Field string `json:"field"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
 	// Query is the search query string.
 	Query string `json:"query"`
 
-	// Start is the start timestamp, events before this time are not included.
+	// Start is the start timestamp, events before this time are not included. This field is required.
 	Start time.Time `json:"start"`
 
-	// Stop is the stop timestamp, events after this time are not included.
+	// Stop is the stop timestamp, events after this time are not included. This field is required.
 	Stop time.Time `json:"stop"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // GetNumericFieldStatsOutput params.
 type GetNumericFieldStatsOutput struct {
-	// Avg is the avg value.
+	// Avg is the avg value. This field is required.
 	Avg float64 `json:"avg"`
 
-	// Max is The max value.
+	// Max is The max value. This field is required.
 	Max float64 `json:"max"`
 
-	// Min is the min value.
+	// Min is the min value. This field is required.
 	Min float64 `json:"min"`
 
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 }
 
 // GetProjectStatsInput params.
 type GetProjectStatsInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // GetProjectStatsOutput params.
 type GetProjectStatsOutput struct {
-	// BytesTotal is the total number of bytes stored.
+	// BytesTotal is the total number of bytes stored. This field is required.
 	BytesTotal int `json:"bytes_total"`
 
-	// EventsTotal is the total number of events stored.
+	// EventsTotal is the total number of events stored. This field is required.
 	EventsTotal int `json:"events_total"`
 }
 
 // GetProjectsOutput params.
 type GetProjectsOutput struct {
-	// Projects is the projects.
+	// Projects is the projects. This field is required.
 	Projects []Project `json:"projects"`
 }
 
 // GetSearchesInput params.
 type GetSearchesInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
@@ -538,64 +523,58 @@ type GetSearchesOutput struct {
 
 // GetStringFieldStatsInput params.
 type GetStringFieldStatsInput struct {
-	// Field is the field name.
+	// Field is the field name. This field is required.
 	Field string `json:"field"`
 
 	// Limit is the maximum number of values to return.
 	Limit int `json:"limit"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
 	// Query is the search query string.
 	Query string `json:"query"`
 
-	// Start is the start timestamp, events before this time are not included.
+	// Start is the start timestamp, events before this time are not included. This field is required.
 	Start time.Time `json:"start"`
 
-	// Stop is the stop timestamp, events after this time are not included.
+	// Stop is the stop timestamp, events after this time are not included. This field is required.
 	Stop time.Time `json:"stop"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // GetStringFieldStatsOutput params.
 type GetStringFieldStatsOutput struct {
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 
-	// Values is the string values.
+	// Values is the string values. This field is required.
 	Values []StringFieldStat `json:"values"`
 }
 
 // GetTimeseriesInput params.
 type GetTimeseriesInput struct {
-	// MaxPoints is the maxmimum number of datapoints to return.
+	// MaxPoints is the maxmimum number of datapoints to return. This field is required.
 	MaxPoints int `json:"max_points"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
 	// Query is the search query string.
 	Query string `json:"query"`
 
-	// Start is the start timestamp, events before this time are not included.
+	// Start is the start timestamp, events before this time are not included. This field is required.
 	Start time.Time `json:"start"`
 
-	// Stop is the stop timestamp, events after this time are not included.
+	// Stop is the stop timestamp, events after this time are not included. This field is required.
 	Stop time.Time `json:"stop"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // GetTimeseriesOutput params.
 type GetTimeseriesOutput struct {
-	// Points is the series.
+	// Points is the series. This field is required.
 	Points []TimeseriesPoint `json:"points"`
 
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 }
 
@@ -607,61 +586,58 @@ type GetTokensOutput struct {
 
 // QueryInput params.
 type QueryInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
-	// Query is the SQL query string.
+	// Query is the SQL query string. This field is required.
 	Query string `json:"query"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // QueryOutput params.
 type QueryOutput struct {
-	// Results is the query results.
+	// Results is the query results. This field is required.
 	Results []map[string]interface{} `json:"results"`
 
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 }
 
 // RemoveAlertInput params.
 type RemoveAlertInput struct {
-	// AlertID is the alert id.
+	// AlertID is the alert id. This field is required.
 	AlertID string `json:"alert_id"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // RemoveNotificationInput params.
 type RemoveNotificationInput struct {
-	// NotificationID is the notification id.
+	// NotificationID is the notification id. This field is required.
 	NotificationID string `json:"notification_id"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // RemoveProjectInput params.
 type RemoveProjectInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 }
 
 // RemoveSearchInput params.
 type RemoveSearchInput struct {
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
-	// SearchID is the saved search id.
+	// SearchID is the saved search id. This field is required.
 	SearchID string `json:"search_id"`
 }
 
 // RemoveTokenInput params.
 type RemoveTokenInput struct {
-	// TokenID is the token id.
+	// TokenID is the token id. This field is required.
 	TokenID string `json:"token_id"`
 }
 
@@ -673,58 +649,55 @@ type SearchInput struct {
 	// Order is the query timestamp sort order. Must be one of: "ascending", "descending".
 	Order string `json:"order"`
 
-	// ProjectID is the project id.
+	// ProjectID is the project id. This field is required.
 	ProjectID string `json:"project_id"`
 
 	// Query is the search query string.
 	Query string `json:"query"`
 
-	// Start is the start timestamp, events before this time are not included.
+	// Start is the start timestamp, events before this time are not included. This field is required.
 	Start time.Time `json:"start"`
 
-	// Stop is the stop timestamp, events after this time are not included.
+	// Stop is the stop timestamp, events after this time are not included. This field is required.
 	Stop time.Time `json:"stop"`
-
-	// Timeout is a request timeout in seconds, after which a timeout error is returned.
-	Timeout int `json:"timeout"`
 }
 
 // SearchOutput params.
 type SearchOutput struct {
-	// Events is the query search results.
+	// Events is the query search results. This field is required.
 	Events []Event `json:"events"`
 
-	// Stats is the query statistics.
+	// Stats is the query statistics. This field is required.
 	Stats QueryStats `json:"stats"`
 }
 
 // TestAlertInput params.
 type TestAlertInput struct {
-	// Alert is the alert.
+	// Alert is the alert. This field is required.
 	Alert Alert `json:"alert"`
 }
 
 // UpdateAlertInput params.
 type UpdateAlertInput struct {
-	// Alert is the alert.
+	// Alert is the alert. This field is required.
 	Alert Alert `json:"alert"`
 }
 
 // UpdateNotificationInput params.
 type UpdateNotificationInput struct {
-	// Notification is the notification.
+	// Notification is the notification. This field is required.
 	Notification Notification `json:"notification"`
 }
 
 // UpdateProjectInput params.
 type UpdateProjectInput struct {
-	// Project is the project.
+	// Project is the project. This field is required.
 	Project Project `json:"project"`
 }
 
 // UpdateSearchInput params.
 type UpdateSearchInput struct {
-	// Search is the saved search.
+	// Search is the saved search. This field is required.
 	Search Search `json:"search"`
 }
 

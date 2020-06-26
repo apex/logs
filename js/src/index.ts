@@ -2,77 +2,74 @@
 
 // Alert represents configuration for performing alerting.
 interface Alert {
-  // id is the alert id.
-  id: string
+  // id is the alert id. This field is read-only.
+  id?: string
 
-  // project_id is the associated project id.
+  // project_id is the associated project id. This field is required.
   project_id: string
 
-  // name is the name of the alert.
+  // name is the name of the alert. This field is required.
   name: string
 
   // description is the description of the alert.
-  description: string
+  description?: string
 
-  // severity is the severity of the alert. Must be one of: "info", "notice", "error", "critical".
+  // severity is the severity of the alert. This field is required. Must be one of: "info", "notice", "error", "critical".
   severity: string
 
-  // query is the query performed by the alert.
+  // query is the query performed by the alert. This field is required.
   query: string
 
-  // operator is the operator used when comparing against the threshold. Must be one of: ">", ">=", "<", "<=".
+  // operator is the operator used when comparing against the threshold. This field is required. Must be one of: ">", ">=", "<", "<=".
   operator: string
 
   // threshold is the threshold for comparison against the selected operator.
-  threshold: number
+  threshold?: number
 
   // limit is the maximum number of events in the alert notification.
-  limit: number
+  limit?: number
 
-  // interval is the interval in minutes for performing the alert.
+  // interval is the interval in minutes for performing the alert. This field is required.
   interval: number
 
-  // notification_id is the notification id for reporting alerts, when omitted the alert will not be run.
+  // notification_id is the notification id for reporting alerts, when omitted the alert will not be run. This field is required.
   notification_id: string
 
-  // triggered is a boolean indicating whether or not the alert is currently triggered.
-  triggered: boolean
-
-  // muted is a boolean used ignore trigger and resolve notifications.
+  // muted is a boolean used ignore trigger and resolve notifications. This field is required.
   muted: boolean
 
-  // updated_at is a timestamp indicating when the alert was last updated.
-  updated_at: Date
+  // updated_at is a timestamp indicating when the alert was last updated. This field is read-only.
+  updated_at?: Date
 
-  // created_at is a timestamp indicating when the alert was created.
-  created_at: Date
+  // created_at is a timestamp indicating when the alert was created. This field is read-only.
+  created_at?: Date
 }
 
 // BooleanFieldStat represents a boolean field's stats.
 interface BooleanFieldStat {
   // value is the boolean value.
-  value: boolean
+  value?: boolean
 
   // count is the number of times this field occurred in the sampled events.
-  count: number
+  count?: number
 
   // percent is the percentage of occurrences in the sampled events.
-  percent: number
+  percent?: number
 }
 
 // DiscoveredField represents a single discovered field.
 interface DiscoveredField {
   // name is the field name.
-  name: string
+  name?: string
 
   // type is the type of discovered field. Must be one of: "string", "number", "boolean".
-  type: string
+  type?: string
 
   // count is the number of times this field occurred in the sampled events.
-  count: number
+  count?: number
 
   // percent is the percentage of occurrences in the sampled events.
-  percent: number
+  percent?: number
 }
 
 // Event represents a single log event.
@@ -80,10 +77,10 @@ interface Event {
   // id is the event id.
   id?: string
 
-  // level is the severity level. Must be one of: "debug", "info", "notice", "warning", "error", "critical", "alert", "emergency".
+  // level is the severity level. This field is required. Must be one of: "debug", "info", "notice", "warning", "error", "critical", "alert", "emergency".
   level: string
 
-  // message is the log message.
+  // message is the log message. This field is required.
   message: string
 
   // fields is the log fields.
@@ -107,16 +104,16 @@ interface InstanceConfig {
 
 // Notification represents an alert notification.
 interface Notification {
-  // id is the notification id.
-  id: string
+  // id is the notification id. This field is read-only.
+  id?: string
 
-  // project_id is the associated project id.
+  // project_id is the associated project id. This field is required.
   project_id: string
 
-  // name is the name of the notification.
+  // name is the name of the notification. This field is required.
   name: string
 
-  // type is the type of notification. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
+  // type is the type of notification. This field is required. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
   type: string
 
   // slack_webhook_url is the Slack webhook URL.
@@ -137,172 +134,172 @@ interface Notification {
   // pagerduty_service_key is the PagerDuty service key.
   pagerduty_service_key?: string
 
-  // updated_at is a timestamp indicating when the notification was last updated.
-  updated_at: Date
+  // updated_at is a timestamp indicating when the notification was last updated. This field is read-only.
+  updated_at?: Date
 
-  // created_at is a timestamp indicating when the notification was created.
-  created_at: Date
+  // created_at is a timestamp indicating when the notification was created. This field is read-only.
+  created_at?: Date
 }
 
 // Project represents a customer application.
 interface Project {
-  // id is the project id.
-  id: string
+  // id is the project id. This field is read-only.
+  id?: string
 
-  // name is the human-friendly project name.
+  // name is the human-friendly project name. This field is required.
   name: string
 
   // retention is the retention of log events in days. When zero the logs do not expire.
-  retention: number
+  retention?: number
 
-  // location is the geographical location where the log events are stored. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
+  // location is the geographical location where the log events are stored. This field is required. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
   location: string
 
   // description is the project description.
   description?: string
 
-  // updated_at is a timestamp indicating when the project was last updated.
-  updated_at: Date
+  // updated_at is a timestamp indicating when the project was last updated. This field is read-only.
+  updated_at?: Date
 
-  // created_at is a timestamp indicating when the project was created.
-  created_at: Date
+  // created_at is a timestamp indicating when the project was created. This field is read-only.
+  created_at?: Date
 }
 
 // QueryStats represents query statistics.
 interface QueryStats {
   // total_bytes_processed is the total number of bytes processed by the query.
-  total_bytes_processed: number
+  total_bytes_processed?: number
 
   // total_bytes_billed is the total number of bytes billed by the query.
-  total_bytes_billed: number
+  total_bytes_billed?: number
 
   // cache_hit is a boolean indicating if the query was cached.
-  cache_hit: boolean
+  cache_hit?: boolean
 
   // duration is the query duration in milliseconds.
-  duration: number
+  duration?: number
 }
 
 // Search represents a saved search query.
 interface Search {
-  // id is the saved search id.
-  id: string
+  // id is the saved search id. This field is read-only.
+  id?: string
 
-  // name is the name of the saved search.
+  // name is the name of the saved search. This field is required.
   name: string
 
-  // project_id is the associated project id.
+  // project_id is the associated project id. This field is required.
   project_id: string
 
-  // query is the saved search query.
+  // query is the saved search query. This field is required.
   query: string
 
-  // updated_at is a timestamp indicating when the saved search was last updated.
-  updated_at: Date
+  // updated_at is a timestamp indicating when the saved search was last updated. This field is read-only.
+  updated_at?: Date
 
-  // created_at is a timestamp indicating when the saved search was created.
-  created_at: Date
+  // created_at is a timestamp indicating when the saved search was created. This field is read-only.
+  created_at?: Date
 }
 
 // StringFieldStat represents a string field's stats.
 interface StringFieldStat {
   // value is the string value.
-  value: string
+  value?: string
 
   // count is the number of times this field occurred in the sampled events.
-  count: number
+  count?: number
 
   // percent is the percentage of occurrences in the sampled events.
-  percent: number
+  percent?: number
 }
 
 // TimeseriesPoint represents a single point in a timeseries query.
 interface TimeseriesPoint {
   // timestamp is the bucket timestamp.
-  timestamp: Date
+  timestamp?: Date
 
   // count is the number of events for this bucket.
-  count: number
+  count?: number
 }
 
 // Token represents an API token.
 interface Token {
-  // id is the token.
+  // id is the token. This field is read-only.
   id?: string
 
   // description is the description of the token.
   description?: string
 
-  // scopes is available to this token, permitting access to read and write data.
+  // scopes is available to this token, permitting access to read and write data. This field is required.
   scopes: string[]
 
-  // last_used_at is a timestamp indicating when the token was last used.
+  // last_used_at is a timestamp indicating when the token was last used. This field is read-only.
   last_used_at?: Date
 
-  // created_at is a timestamp indicating when the token was created.
+  // created_at is a timestamp indicating when the token was created. This field is read-only.
   created_at?: Date
 }
 
 // AddAlertInput params.
 interface AddAlertInput {
-  // alert is the alert.
+  // alert is the alert. This field is required.
   alert: Alert
 }
 
 // AddAlertOutput params.
 class AddAlertOutput {
-  // id is the alert id.
+  // id is the alert id. This field is required.
   id: string
 }
 
 // AddEventsInput params.
 interface AddEventsInput {
-  // events is the batch of events.
+  // events is the batch of events. This field is required.
   events: Event[]
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // AddNotificationInput params.
 interface AddNotificationInput {
-  // notification is the notification.
+  // notification is the notification. This field is required.
   notification: Notification
 }
 
 // AddNotificationOutput params.
 class AddNotificationOutput {
-  // id is the notification id.
+  // id is the notification id. This field is required.
   id: string
 }
 
 // AddProjectInput params.
 interface AddProjectInput {
-  // project is the project.
+  // project is the project. This field is required.
   project: Project
 }
 
 // AddProjectOutput params.
 class AddProjectOutput {
-  // id is the project id.
+  // id is the project id. This field is required.
   id: string
 }
 
 // AddSearchInput params.
 interface AddSearchInput {
-  // search is the saved search.
+  // search is the saved search. This field is required.
   search: Search
 }
 
 // AddSearchOutput params.
 class AddSearchOutput {
-  // id is the saved search id.
+  // id is the saved search id. This field is required.
   id: string
 }
 
 // AddTokenInput params.
 interface AddTokenInput {
-  // token is the token.
+  // token is the token. This field is required.
   token: Token
 }
 
@@ -314,112 +311,103 @@ class AddTokenOutput {
 
 // GetAlertInput params.
 interface GetAlertInput {
-  // alert_id is the alert id.
+  // alert_id is the alert id. This field is required.
   alert_id: string
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // GetAlertOutput params.
 class GetAlertOutput {
-  // alert is the alert.
+  // alert is the alert. This field is required.
   alert: Alert
 }
 
 // GetAlertsInput params.
 interface GetAlertsInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // GetAlertsOutput params.
 class GetAlertsOutput {
-  // alerts is the alerts.
+  // alerts is the alerts. This field is required.
   alerts: Alert[]
 }
 
 // GetBooleanFieldStatsInput params.
 interface GetBooleanFieldStatsInput {
-  // field is the field name.
+  // field is the field name. This field is required.
   field: string
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
   // query is the search query string.
   query?: string
 
-  // start is the start timestamp, events before this time are not included.
+  // start is the start timestamp, events before this time are not included. This field is required.
   start: Date
 
-  // stop is the stop timestamp, events after this time are not included.
+  // stop is the stop timestamp, events after this time are not included. This field is required.
   stop: Date
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // GetBooleanFieldStatsOutput params.
 class GetBooleanFieldStatsOutput {
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 
-  // values is the boolean values.
+  // values is the boolean values. This field is required.
   values: BooleanFieldStat[]
 }
 
 // GetCountInput params.
 interface GetCountInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
   // query is the search query string.
   query?: string
 
-  // start is the start timestamp, events before this time are not included.
+  // start is the start timestamp, events before this time are not included. This field is required.
   start: Date
 
-  // stop is the stop timestamp, events after this time are not included.
+  // stop is the stop timestamp, events after this time are not included. This field is required.
   stop: Date
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // GetCountOutput params.
 class GetCountOutput {
-  // count is the query result count.
+  // count is the query result count. This field is required.
   count: number
 
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 }
 
 // GetDiscoveredFieldsInput params.
 interface GetDiscoveredFieldsInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
   // query is the search query string.
   query?: string
 
-  // start is the start timestamp, events before this time are not included.
+  // start is the start timestamp, events before this time are not included. This field is required.
   start: Date
 
-  // stop is the stop timestamp, events after this time are not included.
+  // stop is the stop timestamp, events after this time are not included. This field is required.
   stop: Date
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // GetDiscoveredFieldsOutput params.
 class GetDiscoveredFieldsOutput {
-  // fields is the fields discovered.
+  // fields is the fields discovered. This field is required.
   fields: DiscoveredField[]
 
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 }
 
@@ -431,91 +419,88 @@ class GetInstanceConfigOutput {
 
 // GetNotificationInput params.
 interface GetNotificationInput {
-  // notification_id is the notification id.
+  // notification_id is the notification id. This field is required.
   notification_id: string
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // GetNotificationOutput params.
 class GetNotificationOutput {
-  // notification is the notification.
+  // notification is the notification. This field is required.
   notification: Notification
 }
 
 // GetNotificationsInput params.
 interface GetNotificationsInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // GetNotificationsOutput params.
 class GetNotificationsOutput {
-  // notifications is the notifications.
+  // notifications is the notifications. This field is required.
   notifications: Notification[]
 }
 
 // GetNumericFieldStatsInput params.
 interface GetNumericFieldStatsInput {
-  // field is the field name.
+  // field is the field name. This field is required.
   field: string
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
   // query is the search query string.
   query?: string
 
-  // start is the start timestamp, events before this time are not included.
+  // start is the start timestamp, events before this time are not included. This field is required.
   start: Date
 
-  // stop is the stop timestamp, events after this time are not included.
+  // stop is the stop timestamp, events after this time are not included. This field is required.
   stop: Date
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // GetNumericFieldStatsOutput params.
 class GetNumericFieldStatsOutput {
-  // avg is the avg value.
+  // avg is the avg value. This field is required.
   avg: number
 
-  // max is The max value.
+  // max is The max value. This field is required.
   max: number
 
-  // min is the min value.
+  // min is the min value. This field is required.
   min: number
 
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 }
 
 // GetProjectStatsInput params.
 interface GetProjectStatsInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // GetProjectStatsOutput params.
 class GetProjectStatsOutput {
-  // bytes_total is the total number of bytes stored.
+  // bytes_total is the total number of bytes stored. This field is required.
   bytes_total: number
 
-  // events_total is the total number of events stored.
+  // events_total is the total number of events stored. This field is required.
   events_total: number
 }
 
 // GetProjectsOutput params.
 class GetProjectsOutput {
-  // projects is the projects.
+  // projects is the projects. This field is required.
   projects: Project[]
 }
 
 // GetSearchesInput params.
 interface GetSearchesInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
@@ -527,64 +512,58 @@ class GetSearchesOutput {
 
 // GetStringFieldStatsInput params.
 interface GetStringFieldStatsInput {
-  // field is the field name.
+  // field is the field name. This field is required.
   field: string
 
   // limit is the maximum number of values to return.
-  limit: number
+  limit?: number
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
   // query is the search query string.
   query?: string
 
-  // start is the start timestamp, events before this time are not included.
+  // start is the start timestamp, events before this time are not included. This field is required.
   start: Date
 
-  // stop is the stop timestamp, events after this time are not included.
+  // stop is the stop timestamp, events after this time are not included. This field is required.
   stop: Date
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // GetStringFieldStatsOutput params.
 class GetStringFieldStatsOutput {
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 
-  // values is the string values.
+  // values is the string values. This field is required.
   values: StringFieldStat[]
 }
 
 // GetTimeseriesInput params.
 interface GetTimeseriesInput {
-  // max_points is the maxmimum number of datapoints to return.
+  // max_points is the maxmimum number of datapoints to return. This field is required.
   max_points: number
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
   // query is the search query string.
   query?: string
 
-  // start is the start timestamp, events before this time are not included.
+  // start is the start timestamp, events before this time are not included. This field is required.
   start: Date
 
-  // stop is the stop timestamp, events after this time are not included.
+  // stop is the stop timestamp, events after this time are not included. This field is required.
   stop: Date
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // GetTimeseriesOutput params.
 class GetTimeseriesOutput {
-  // points is the series.
+  // points is the series. This field is required.
   points: TimeseriesPoint[]
 
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 }
 
@@ -596,124 +575,118 @@ class GetTokensOutput {
 
 // QueryInput params.
 interface QueryInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
-  // query is the SQL query string.
+  // query is the SQL query string. This field is required.
   query: string
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // QueryOutput params.
 class QueryOutput {
-  // results is the query results.
+  // results is the query results. This field is required.
   results: object[]
 
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 }
 
 // RemoveAlertInput params.
 interface RemoveAlertInput {
-  // alert_id is the alert id.
+  // alert_id is the alert id. This field is required.
   alert_id: string
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // RemoveNotificationInput params.
 interface RemoveNotificationInput {
-  // notification_id is the notification id.
+  // notification_id is the notification id. This field is required.
   notification_id: string
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // RemoveProjectInput params.
 interface RemoveProjectInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 }
 
 // RemoveSearchInput params.
 interface RemoveSearchInput {
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
-  // search_id is the saved search id.
+  // search_id is the saved search id. This field is required.
   search_id: string
 }
 
 // RemoveTokenInput params.
 interface RemoveTokenInput {
-  // token_id is the token id.
+  // token_id is the token id. This field is required.
   token_id: string
 }
 
 // SearchInput params.
 interface SearchInput {
   // limit is the maxmimum number of events to return.
-  limit: number
+  limit?: number
 
   // order is the query timestamp sort order. Must be one of: "ascending", "descending".
   order?: string
 
-  // project_id is the project id.
+  // project_id is the project id. This field is required.
   project_id: string
 
   // query is the search query string.
   query?: string
 
-  // start is the start timestamp, events before this time are not included.
+  // start is the start timestamp, events before this time are not included. This field is required.
   start: Date
 
-  // stop is the stop timestamp, events after this time are not included.
+  // stop is the stop timestamp, events after this time are not included. This field is required.
   stop: Date
-
-  // timeout is a request timeout in seconds, after which a timeout error is returned.
-  timeout?: number
 }
 
 // SearchOutput params.
 class SearchOutput {
-  // events is the query search results.
+  // events is the query search results. This field is required.
   events: Event[]
 
-  // stats is the query statistics.
+  // stats is the query statistics. This field is required.
   stats: QueryStats
 }
 
 // TestAlertInput params.
 interface TestAlertInput {
-  // alert is the alert.
+  // alert is the alert. This field is required.
   alert: Alert
 }
 
 // UpdateAlertInput params.
 interface UpdateAlertInput {
-  // alert is the alert.
+  // alert is the alert. This field is required.
   alert: Alert
 }
 
 // UpdateNotificationInput params.
 interface UpdateNotificationInput {
-  // notification is the notification.
+  // notification is the notification. This field is required.
   notification: Notification
 }
 
 // UpdateProjectInput params.
 interface UpdateProjectInput {
-  // project is the project.
+  // project is the project. This field is required.
   project: Project
 }
 
 // UpdateSearchInput params.
 interface UpdateSearchInput {
-  // search is the saved search.
+  // search is the saved search. This field is required.
   search: Search
 }
 
