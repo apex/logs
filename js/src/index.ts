@@ -702,8 +702,9 @@ async function call(url: string, authToken: string, method: string, params?: any
 	 method: 'POST',
 	 body: JSON.stringify(params),
 	 headers: {
-		 'Content-Type': 'application/json',
-		 'Authorization': `Bearer ${authToken}`
+     'User-Agent': `client=js, schema=v0.6.5`,
+     'Content-Type': 'application/json',
+     'Authorization': `Bearer ${authToken}`
 	 }
  })
 

@@ -951,6 +951,7 @@ func call(client *http.Client, authToken, endpoint, method string, in, out inter
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("User-Agent", "client=go, schema=v0.6.5")
 
 	// auth token
 	if authToken != "" {
