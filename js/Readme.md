@@ -1,7 +1,7 @@
 
 # JS
 
-The js client for Apex Logs supporting Node.js and the browser.
+The JavaScript client for Apex Logs supporting Node.js, Deno, and the browser.
 
 ## Example
 
@@ -9,7 +9,8 @@ The js client for Apex Logs supporting Node.js and the browser.
 import Client from 'apex-logs'
 
 const client = new Client({
-  url: 'http://localhost:5001'
+  url: '<ENDPOINT>',
+  authToken: '<TOKEN>'
 })
 
 async function run() {

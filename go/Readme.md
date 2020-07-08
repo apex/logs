@@ -8,7 +8,10 @@ The Go client for Apex Logs.
 Error handling is omitted for brevity.
 
 ```go
-c := logs.New("http://localhost:5001")
+c := logs.Client{
+  URL: "<ENDPOINT>",
+  AuthToken: "<TOKEN>",
+}
 
 res, _ := c.GetProjects()
 
