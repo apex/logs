@@ -13,78 +13,81 @@ import (
 
 // Alert represents configuration for performing alerting.
 type Alert struct {
-	// ID is the alert id. This field is read-only.
-	ID string `json:"id"`
-
-	// ProjectID is the associated project id. This field is required.
-	ProjectID string `json:"project_id"`
-
-	// Name is the name of the alert. This field is required.
-	Name string `json:"name"`
+	// CreatedAt is a timestamp indicating when the alert was created. This field is read-only.
+	CreatedAt time.Time `json:"created_at"`
 
 	// Description is the description of the alert.
 	Description string `json:"description"`
 
-	// Severity is the severity of the alert. This field is required. Must be one of: "info", "notice", "error", "critical".
-	Severity string `json:"severity"`
+	// ID is the alert id. This field is read-only.
+	ID string `json:"id"`
 
-	// Query is the query performed by the alert. This field is required.
-	Query string `json:"query"`
-
-	// Operator is the operator used when comparing against the threshold. This field is required. Must be one of: ">", ">=", "<", "<=".
-	Operator string `json:"operator"`
-
-	// Threshold is the threshold for comparison against the selected operator.
-	Threshold int `json:"threshold"`
+	// Interval is the interval in minutes for performing the alert.
+	Interval int `json:"interval"`
 
 	// Limit is the maximum number of events in the alert notification.
 	Limit int `json:"limit"`
 
-	// Interval is the interval in minutes for performing the alert. This field is required.
-	Interval int `json:"interval"`
+	// Muted is a boolean used ignore trigger and resolve notifications.
+	Muted bool `json:"muted"`
 
-	// NotificationID is the notification id for reporting alerts, when omitted the alert will not be run. This field is required.
+	// Name is the name of the alert. This field is required.
+	Name string `json:"name"`
+
+	// NotificationID is the notification id for reporting alerts, when omitted the alert will not run. This field is required.
 	NotificationID string `json:"notification_id"`
 
-	// Muted is a boolean used ignore trigger and resolve notifications. This field is required.
-	Muted bool `json:"muted"`
+	// Operator is the operator used when comparing against the threshold. This field is required. Must be one of: ">", ">=", "<", "<=".
+	Operator string `json:"operator"`
+
+	// ProjectID is the associated project id. This field is required.
+	ProjectID string `json:"project_id"`
+
+	// Query is the query performed by the alert. This field is required.
+	Query string `json:"query"`
+
+	// Severity is the severity of the alert. This field is required. Must be one of: "info", "notice", "error", "critical".
+	Severity string `json:"severity"`
+
+	// Threshold is the threshold for comparison against the selected operator.
+	Threshold int `json:"threshold"`
 
 	// UpdatedAt is a timestamp indicating when the alert was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
-
-	// CreatedAt is a timestamp indicating when the alert was created. This field is read-only.
-	CreatedAt time.Time `json:"created_at"`
 }
 
 // BooleanFieldStat represents a boolean field's stats.
 type BooleanFieldStat struct {
-	// Value is the boolean value.
-	Value bool `json:"value"`
-
 	// Count is the number of times this field occurred in the sampled events.
 	Count int `json:"count"`
 
 	// Percent is the percentage of occurrences in the sampled events.
 	Percent float64 `json:"percent"`
+
+	// Value is the boolean value.
+	Value bool `json:"value"`
 }
 
 // DiscoveredField represents a single discovered field.
 type DiscoveredField struct {
-	// Name is the field name.
-	Name string `json:"name"`
-
-	// Type is the type of discovered field. Must be one of: "string", "number", "boolean".
-	Type string `json:"type"`
-
 	// Count is the number of times this field occurred in the sampled events.
 	Count int `json:"count"`
 
+	// Name is the field name.
+	Name string `json:"name"`
+
 	// Percent is the percentage of occurrences in the sampled events.
 	Percent float64 `json:"percent"`
+
+	// Type is the type of discovered field. Must be one of: "string", "number", "boolean".
+	Type string `json:"type"`
 }
 
 // Event represents a single log event.
 type Event struct {
+	// Fields is the log fields.
+	Fields map[string]interface{} `json:"fields"`
+
 	// ID is the event id.
 	ID string `json:"id"`
 
@@ -94,68 +97,74 @@ type Event struct {
 	// Message is the log message. This field is required.
 	Message string `json:"message"`
 
-	// Fields is the log fields.
-	Fields map[string]interface{} `json:"fields"`
-
 	// Timestamp is the creation timestamp.
 	Timestamp time.Time `json:"timestamp"`
 }
 
 // InstanceConfig represents an instance's configuration.
 type InstanceConfig struct {
-	// TeamID is the Apex team id.
-	TeamID string `json:"team_id"`
-
 	// ProjectID is the Google Cloud project id.
 	ProjectID string `json:"project_id"`
 
 	// Region is the Google Cloud region id.
 	Region string `json:"region"`
+
+	// TeamID is the Apex team id.
+	TeamID string `json:"team_id"`
 }
 
 // Notification represents an alert notification.
 type Notification struct {
-	// ID is the notification id. This field is read-only.
-	ID string `json:"id"`
-
-	// ProjectID is the associated project id. This field is required.
-	ProjectID string `json:"project_id"`
-
-	// Name is the name of the notification. This field is required.
-	Name string `json:"name"`
-
-	// Type is the type of notification. This field is required. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
-	Type string `json:"type"`
-
-	// SlackWebhookURL is the Slack webhook URL.
-	SlackWebhookURL string `json:"slack_webhook_url"`
-
-	// SlackChannel is the Slack channel name, otherwise the default for the webhook is used.
-	SlackChannel string `json:"slack_channel"`
-
-	// WebhookURL is the webhook URL which receives the alert payloads.
-	WebhookURL string `json:"webhook_url"`
-
-	// SmsNumbers is the receipients of the alert notifications.
-	SmsNumbers []string `json:"sms_numbers"`
+	// CreatedAt is a timestamp indicating when the notification was created. This field is read-only.
+	CreatedAt time.Time `json:"created_at"`
 
 	// EmailAddresses is the receipients of the alert notifications.
 	EmailAddresses []string `json:"email_addresses"`
 
+	// ID is the notification id. This field is read-only.
+	ID string `json:"id"`
+
+	// Name is the name of the notification. This field is required.
+	Name string `json:"name"`
+
 	// PagerdutyServiceKey is the PagerDuty service key.
 	PagerdutyServiceKey string `json:"pagerduty_service_key"`
+
+	// ProjectID is the associated project id. This field is required.
+	ProjectID string `json:"project_id"`
+
+	// SlackChannel is the Slack channel name, otherwise the default for the webhook is used.
+	SlackChannel string `json:"slack_channel"`
+
+	// SlackWebhookURL is the Slack webhook URL.
+	SlackWebhookURL string `json:"slack_webhook_url"`
+
+	// SmsNumbers is the receipients of the alert notifications.
+	SmsNumbers []string `json:"sms_numbers"`
+
+	// Type is the type of notification. This field is required. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
+	Type string `json:"type"`
 
 	// UpdatedAt is a timestamp indicating when the notification was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
 
-	// CreatedAt is a timestamp indicating when the notification was created. This field is read-only.
-	CreatedAt time.Time `json:"created_at"`
+	// WebhookURL is the webhook URL which receives the alert payloads.
+	WebhookURL string `json:"webhook_url"`
 }
 
 // Project represents a customer application.
 type Project struct {
+	// CreatedAt is a timestamp indicating when the project was created. This field is read-only.
+	CreatedAt time.Time `json:"created_at"`
+
+	// Description is the project description.
+	Description string `json:"description"`
+
 	// ID is the project id. This field is read-only.
 	ID string `json:"id"`
+
+	// Location is the geographical location where the log events are stored. This field is required. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
+	Location string `json:"location"`
 
 	// Name is the human-friendly project name. This field is required.
 	Name string `json:"name"`
@@ -163,36 +172,30 @@ type Project struct {
 	// Retention is the retention of log events in days. When zero the logs do not expire.
 	Retention int `json:"retention"`
 
-	// Location is the geographical location where the log events are stored. This field is required. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
-	Location string `json:"location"`
-
-	// Description is the project description.
-	Description string `json:"description"`
-
 	// UpdatedAt is a timestamp indicating when the project was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
-
-	// CreatedAt is a timestamp indicating when the project was created. This field is read-only.
-	CreatedAt time.Time `json:"created_at"`
 }
 
 // QueryStats represents query statistics.
 type QueryStats struct {
-	// TotalBytesProcessed is the total number of bytes processed by the query.
-	TotalBytesProcessed int `json:"total_bytes_processed"`
-
-	// TotalBytesBilled is the total number of bytes billed by the query.
-	TotalBytesBilled int `json:"total_bytes_billed"`
-
 	// CacheHit is a boolean indicating if the query was cached.
 	CacheHit bool `json:"cache_hit"`
 
 	// Duration is the query duration in milliseconds.
 	Duration int `json:"duration"`
+
+	// TotalBytesBilled is the total number of bytes billed by the query.
+	TotalBytesBilled int `json:"total_bytes_billed"`
+
+	// TotalBytesProcessed is the total number of bytes processed by the query.
+	TotalBytesProcessed int `json:"total_bytes_processed"`
 }
 
 // Search represents a saved search query.
 type Search struct {
+	// CreatedAt is a timestamp indicating when the saved search was created. This field is read-only.
+	CreatedAt time.Time `json:"created_at"`
+
 	// ID is the saved search id. This field is read-only.
 	ID string `json:"id"`
 
@@ -207,48 +210,45 @@ type Search struct {
 
 	// UpdatedAt is a timestamp indicating when the saved search was last updated. This field is read-only.
 	UpdatedAt time.Time `json:"updated_at"`
-
-	// CreatedAt is a timestamp indicating when the saved search was created. This field is read-only.
-	CreatedAt time.Time `json:"created_at"`
 }
 
 // StringFieldStat represents a string field's stats.
 type StringFieldStat struct {
-	// Value is the string value.
-	Value string `json:"value"`
-
 	// Count is the number of times this field occurred in the sampled events.
 	Count int `json:"count"`
 
 	// Percent is the percentage of occurrences in the sampled events.
 	Percent float64 `json:"percent"`
+
+	// Value is the string value.
+	Value string `json:"value"`
 }
 
 // TimeseriesPoint represents a single point in a timeseries query.
 type TimeseriesPoint struct {
-	// Timestamp is the bucket timestamp.
-	Timestamp time.Time `json:"timestamp"`
-
 	// Count is the number of events for this bucket.
 	Count int `json:"count"`
+
+	// Timestamp is the bucket timestamp.
+	Timestamp time.Time `json:"timestamp"`
 }
 
 // Token represents an API token.
 type Token struct {
-	// ID is the token. This field is read-only.
-	ID string `json:"id"`
+	// CreatedAt is a timestamp indicating when the token was created. This field is read-only.
+	CreatedAt time.Time `json:"created_at"`
 
 	// Description is the description of the token.
 	Description string `json:"description"`
 
-	// Scopes is available to this token, permitting access to read and write data. This field is required.
-	Scopes []string `json:"scopes"`
+	// ID is the token. This field is read-only.
+	ID string `json:"id"`
 
 	// LastUsedAt is a timestamp indicating when the token was last used. This field is read-only.
 	LastUsedAt time.Time `json:"last_used_at"`
 
-	// CreatedAt is a timestamp indicating when the token was created. This field is read-only.
-	CreatedAt time.Time `json:"created_at"`
+	// Scopes is available to this token, permitting access to read and write data. This field is required. Must be one of: "events:read", "events:write", "alerts:read", "alerts:write", "notifications:read", "notifications:write", "projects:read", "projects:write", "tokens:read", "tokens:write", "searches:read", "searches:write".
+	Scopes []string `json:"scopes"`
 }
 
 // AddAlertInput params.
@@ -951,7 +951,6 @@ func call(client *http.Client, authToken, endpoint, method string, in, out inter
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", "client=go, schema=v0.6.5")
 
 	// auth token
 	if authToken != "" {

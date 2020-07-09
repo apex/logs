@@ -2,78 +2,81 @@
 
 // Alert represents configuration for performing alerting.
 interface Alert {
-  // id is the alert id. This field is read-only.
-  id?: string
-
-  // project_id is the associated project id. This field is required.
-  project_id: string
-
-  // name is the name of the alert. This field is required.
-  name: string
+  // created_at is a timestamp indicating when the alert was created. This field is read-only.
+  created_at?: Date
 
   // description is the description of the alert.
   description?: string
 
-  // severity is the severity of the alert. This field is required. Must be one of: "info", "notice", "error", "critical".
-  severity: string
+  // id is the alert id. This field is read-only.
+  id?: string
 
-  // query is the query performed by the alert. This field is required.
-  query: string
-
-  // operator is the operator used when comparing against the threshold. This field is required. Must be one of: ">", ">=", "<", "<=".
-  operator: string
-
-  // threshold is the threshold for comparison against the selected operator.
-  threshold?: number
+  // interval is the interval in minutes for performing the alert.
+  interval?: number
 
   // limit is the maximum number of events in the alert notification.
   limit?: number
 
-  // interval is the interval in minutes for performing the alert. This field is required.
-  interval: number
+  // muted is a boolean used ignore trigger and resolve notifications.
+  muted?: boolean
 
-  // notification_id is the notification id for reporting alerts, when omitted the alert will not be run. This field is required.
+  // name is the name of the alert. This field is required.
+  name: string
+
+  // notification_id is the notification id for reporting alerts, when omitted the alert will not run. This field is required.
   notification_id: string
 
-  // muted is a boolean used ignore trigger and resolve notifications. This field is required.
-  muted: boolean
+  // operator is the operator used when comparing against the threshold. This field is required. Must be one of: ">", ">=", "<", "<=".
+  operator: string
+
+  // project_id is the associated project id. This field is required.
+  project_id: string
+
+  // query is the query performed by the alert. This field is required.
+  query: string
+
+  // severity is the severity of the alert. This field is required. Must be one of: "info", "notice", "error", "critical".
+  severity: string
+
+  // threshold is the threshold for comparison against the selected operator.
+  threshold?: number
 
   // updated_at is a timestamp indicating when the alert was last updated. This field is read-only.
   updated_at?: Date
-
-  // created_at is a timestamp indicating when the alert was created. This field is read-only.
-  created_at?: Date
 }
 
 // BooleanFieldStat represents a boolean field's stats.
 interface BooleanFieldStat {
-  // value is the boolean value.
-  value?: boolean
-
   // count is the number of times this field occurred in the sampled events.
   count?: number
 
   // percent is the percentage of occurrences in the sampled events.
   percent?: number
+
+  // value is the boolean value.
+  value?: boolean
 }
 
 // DiscoveredField represents a single discovered field.
 interface DiscoveredField {
-  // name is the field name.
-  name?: string
-
-  // type is the type of discovered field. Must be one of: "string", "number", "boolean".
-  type?: string
-
   // count is the number of times this field occurred in the sampled events.
   count?: number
 
+  // name is the field name.
+  name?: string
+
   // percent is the percentage of occurrences in the sampled events.
   percent?: number
+
+  // type is the type of discovered field. Must be one of: "string", "number", "boolean".
+  type?: string
 }
 
 // Event represents a single log event.
 interface Event {
+  // fields is the log fields.
+  fields?: object
+
   // id is the event id.
   id?: string
 
@@ -83,68 +86,74 @@ interface Event {
   // message is the log message. This field is required.
   message: string
 
-  // fields is the log fields.
-  fields?: object
-
   // timestamp is the creation timestamp.
   timestamp?: Date
 }
 
 // InstanceConfig represents an instance's configuration.
 interface InstanceConfig {
-  // team_id is the Apex team id.
-  team_id?: string
-
   // project_id is the Google Cloud project id.
   project_id?: string
 
   // region is the Google Cloud region id.
   region?: string
+
+  // team_id is the Apex team id.
+  team_id?: string
 }
 
 // Notification represents an alert notification.
 interface Notification {
-  // id is the notification id. This field is read-only.
-  id?: string
-
-  // project_id is the associated project id. This field is required.
-  project_id: string
-
-  // name is the name of the notification. This field is required.
-  name: string
-
-  // type is the type of notification. This field is required. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
-  type: string
-
-  // slack_webhook_url is the Slack webhook URL.
-  slack_webhook_url?: string
-
-  // slack_channel is the Slack channel name, otherwise the default for the webhook is used.
-  slack_channel?: string
-
-  // webhook_url is the webhook URL which receives the alert payloads.
-  webhook_url?: string
-
-  // sms_numbers is the receipients of the alert notifications.
-  sms_numbers?: string[]
+  // created_at is a timestamp indicating when the notification was created. This field is read-only.
+  created_at?: Date
 
   // email_addresses is the receipients of the alert notifications.
   email_addresses?: string[]
 
+  // id is the notification id. This field is read-only.
+  id?: string
+
+  // name is the name of the notification. This field is required.
+  name: string
+
   // pagerduty_service_key is the PagerDuty service key.
   pagerduty_service_key?: string
+
+  // project_id is the associated project id. This field is required.
+  project_id: string
+
+  // slack_channel is the Slack channel name, otherwise the default for the webhook is used.
+  slack_channel?: string
+
+  // slack_webhook_url is the Slack webhook URL.
+  slack_webhook_url?: string
+
+  // sms_numbers is the receipients of the alert notifications.
+  sms_numbers?: string[]
+
+  // type is the type of notification. This field is required. Must be one of: "slack", "pagerduty", "email", "sms", "webhook".
+  type: string
 
   // updated_at is a timestamp indicating when the notification was last updated. This field is read-only.
   updated_at?: Date
 
-  // created_at is a timestamp indicating when the notification was created. This field is read-only.
-  created_at?: Date
+  // webhook_url is the webhook URL which receives the alert payloads.
+  webhook_url?: string
 }
 
 // Project represents a customer application.
 interface Project {
+  // created_at is a timestamp indicating when the project was created. This field is read-only.
+  created_at?: Date
+
+  // description is the project description.
+  description?: string
+
   // id is the project id. This field is read-only.
   id?: string
+
+  // location is the geographical location where the log events are stored. This field is required. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
+  location: string
 
   // name is the human-friendly project name. This field is required.
   name: string
@@ -152,36 +161,30 @@ interface Project {
   // retention is the retention of log events in days. When zero the logs do not expire.
   retention?: number
 
-  // location is the geographical location where the log events are stored. This field is required. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
-  location: string
-
-  // description is the project description.
-  description?: string
-
   // updated_at is a timestamp indicating when the project was last updated. This field is read-only.
   updated_at?: Date
-
-  // created_at is a timestamp indicating when the project was created. This field is read-only.
-  created_at?: Date
 }
 
 // QueryStats represents query statistics.
 interface QueryStats {
-  // total_bytes_processed is the total number of bytes processed by the query.
-  total_bytes_processed?: number
-
-  // total_bytes_billed is the total number of bytes billed by the query.
-  total_bytes_billed?: number
-
   // cache_hit is a boolean indicating if the query was cached.
   cache_hit?: boolean
 
   // duration is the query duration in milliseconds.
   duration?: number
+
+  // total_bytes_billed is the total number of bytes billed by the query.
+  total_bytes_billed?: number
+
+  // total_bytes_processed is the total number of bytes processed by the query.
+  total_bytes_processed?: number
 }
 
 // Search represents a saved search query.
 interface Search {
+  // created_at is a timestamp indicating when the saved search was created. This field is read-only.
+  created_at?: Date
+
   // id is the saved search id. This field is read-only.
   id?: string
 
@@ -196,48 +199,45 @@ interface Search {
 
   // updated_at is a timestamp indicating when the saved search was last updated. This field is read-only.
   updated_at?: Date
-
-  // created_at is a timestamp indicating when the saved search was created. This field is read-only.
-  created_at?: Date
 }
 
 // StringFieldStat represents a string field's stats.
 interface StringFieldStat {
-  // value is the string value.
-  value?: string
-
   // count is the number of times this field occurred in the sampled events.
   count?: number
 
   // percent is the percentage of occurrences in the sampled events.
   percent?: number
+
+  // value is the string value.
+  value?: string
 }
 
 // TimeseriesPoint represents a single point in a timeseries query.
 interface TimeseriesPoint {
-  // timestamp is the bucket timestamp.
-  timestamp?: Date
-
   // count is the number of events for this bucket.
   count?: number
+
+  // timestamp is the bucket timestamp.
+  timestamp?: Date
 }
 
 // Token represents an API token.
 interface Token {
-  // id is the token. This field is read-only.
-  id?: string
+  // created_at is a timestamp indicating when the token was created. This field is read-only.
+  created_at?: Date
 
   // description is the description of the token.
   description?: string
 
-  // scopes is available to this token, permitting access to read and write data. This field is required.
-  scopes: string[]
+  // id is the token. This field is read-only.
+  id?: string
 
   // last_used_at is a timestamp indicating when the token was last used. This field is read-only.
   last_used_at?: Date
 
-  // created_at is a timestamp indicating when the token was created. This field is read-only.
-  created_at?: Date
+  // scopes is available to this token, permitting access to read and write data. This field is required. Must be one of: "events:read", "events:write", "alerts:read", "alerts:write", "notifications:read", "notifications:write", "projects:read", "projects:write", "tokens:read", "tokens:write", "searches:read", "searches:write".
+  scopes: string[]
 }
 
 // AddAlertInput params.
@@ -247,7 +247,7 @@ interface AddAlertInput {
 }
 
 // AddAlertOutput params.
-class AddAlertOutput {
+interface AddAlertOutput {
   // id is the alert id. This field is required.
   id: string
 }
@@ -268,7 +268,7 @@ interface AddNotificationInput {
 }
 
 // AddNotificationOutput params.
-class AddNotificationOutput {
+interface AddNotificationOutput {
   // id is the notification id. This field is required.
   id: string
 }
@@ -280,7 +280,7 @@ interface AddProjectInput {
 }
 
 // AddProjectOutput params.
-class AddProjectOutput {
+interface AddProjectOutput {
   // id is the project id. This field is required.
   id: string
 }
@@ -292,7 +292,7 @@ interface AddSearchInput {
 }
 
 // AddSearchOutput params.
-class AddSearchOutput {
+interface AddSearchOutput {
   // id is the saved search id. This field is required.
   id: string
 }
@@ -304,7 +304,7 @@ interface AddTokenInput {
 }
 
 // AddTokenOutput params.
-class AddTokenOutput {
+interface AddTokenOutput {
   // id is the token id.
   id?: string
 }
@@ -319,7 +319,7 @@ interface GetAlertInput {
 }
 
 // GetAlertOutput params.
-class GetAlertOutput {
+interface GetAlertOutput {
   // alert is the alert. This field is required.
   alert: Alert
 }
@@ -331,7 +331,7 @@ interface GetAlertsInput {
 }
 
 // GetAlertsOutput params.
-class GetAlertsOutput {
+interface GetAlertsOutput {
   // alerts is the alerts. This field is required.
   alerts: Alert[]
 }
@@ -355,7 +355,7 @@ interface GetBooleanFieldStatsInput {
 }
 
 // GetBooleanFieldStatsOutput params.
-class GetBooleanFieldStatsOutput {
+interface GetBooleanFieldStatsOutput {
   // stats is the query statistics. This field is required.
   stats: QueryStats
 
@@ -379,7 +379,7 @@ interface GetCountInput {
 }
 
 // GetCountOutput params.
-class GetCountOutput {
+interface GetCountOutput {
   // count is the query result count. This field is required.
   count: number
 
@@ -403,7 +403,7 @@ interface GetDiscoveredFieldsInput {
 }
 
 // GetDiscoveredFieldsOutput params.
-class GetDiscoveredFieldsOutput {
+interface GetDiscoveredFieldsOutput {
   // fields is the fields discovered. This field is required.
   fields: DiscoveredField[]
 
@@ -412,7 +412,7 @@ class GetDiscoveredFieldsOutput {
 }
 
 // GetInstanceConfigOutput params.
-class GetInstanceConfigOutput {
+interface GetInstanceConfigOutput {
   // config is the instance configuration.
   config?: InstanceConfig
 }
@@ -427,7 +427,7 @@ interface GetNotificationInput {
 }
 
 // GetNotificationOutput params.
-class GetNotificationOutput {
+interface GetNotificationOutput {
   // notification is the notification. This field is required.
   notification: Notification
 }
@@ -439,7 +439,7 @@ interface GetNotificationsInput {
 }
 
 // GetNotificationsOutput params.
-class GetNotificationsOutput {
+interface GetNotificationsOutput {
   // notifications is the notifications. This field is required.
   notifications: Notification[]
 }
@@ -463,7 +463,7 @@ interface GetNumericFieldStatsInput {
 }
 
 // GetNumericFieldStatsOutput params.
-class GetNumericFieldStatsOutput {
+interface GetNumericFieldStatsOutput {
   // avg is the avg value. This field is required.
   avg: number
 
@@ -484,7 +484,7 @@ interface GetProjectStatsInput {
 }
 
 // GetProjectStatsOutput params.
-class GetProjectStatsOutput {
+interface GetProjectStatsOutput {
   // bytes_total is the total number of bytes stored. This field is required.
   bytes_total: number
 
@@ -493,7 +493,7 @@ class GetProjectStatsOutput {
 }
 
 // GetProjectsOutput params.
-class GetProjectsOutput {
+interface GetProjectsOutput {
   // projects is the projects. This field is required.
   projects: Project[]
 }
@@ -505,7 +505,7 @@ interface GetSearchesInput {
 }
 
 // GetSearchesOutput params.
-class GetSearchesOutput {
+interface GetSearchesOutput {
   // searches is the saved searches.
   searches?: Search[]
 }
@@ -532,7 +532,7 @@ interface GetStringFieldStatsInput {
 }
 
 // GetStringFieldStatsOutput params.
-class GetStringFieldStatsOutput {
+interface GetStringFieldStatsOutput {
   // stats is the query statistics. This field is required.
   stats: QueryStats
 
@@ -559,7 +559,7 @@ interface GetTimeseriesInput {
 }
 
 // GetTimeseriesOutput params.
-class GetTimeseriesOutput {
+interface GetTimeseriesOutput {
   // points is the series. This field is required.
   points: TimeseriesPoint[]
 
@@ -568,7 +568,7 @@ class GetTimeseriesOutput {
 }
 
 // GetTokensOutput params.
-class GetTokensOutput {
+interface GetTokensOutput {
   // tokens is the tokens.
   tokens?: Token[]
 }
@@ -583,7 +583,7 @@ interface QueryInput {
 }
 
 // QueryOutput params.
-class QueryOutput {
+interface QueryOutput {
   // results is the query results. This field is required.
   results: object[]
 
@@ -652,7 +652,7 @@ interface SearchInput {
 }
 
 // SearchOutput params.
-class SearchOutput {
+interface SearchOutput {
   // events is the query search results. This field is required.
   events: Event[]
 
@@ -691,7 +691,11 @@ interface UpdateSearchInput {
 }
 
 
-import fetch from 'node-fetch'
+let fetch = typeof window !== 'undefined' ? window.fetch : null
+if(!fetch) {
+  fetch = require('node-fetch')
+}
+
 
 /**
 * Call method with params via a POST request.
@@ -702,9 +706,8 @@ async function call(url: string, authToken: string, method: string, params?: any
 	 method: 'POST',
 	 body: JSON.stringify(params),
 	 headers: {
-     'User-Agent': `client=js, schema=v0.6.5`,
-     'Content-Type': 'application/json',
-     'Authorization': `Bearer ${authToken}`
+		 'Content-Type': 'application/json',
+		 'Authorization': `Bearer ${authToken}`
 	 }
  })
 
@@ -726,6 +729,8 @@ async function call(url: string, authToken: string, method: string, params?: any
 }
 
 
+const reISO8601 = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
+
 /**
  * Client is the API client.
  */
@@ -745,12 +750,22 @@ export class Client {
   }
 
   /**
+   * Decoder is used as the reviver parameter when decoding responses.
+   */
+
+  private decoder(key: any, value: any) {
+    return typeof value == 'string' && reISO8601.test(value)
+      ? new Date(value)
+      : value
+  }
+
+  /**
    * addAlert: creates a new alert.
    */
 
   async addAlert(params: AddAlertInput): Promise<AddAlertOutput> {
     let res = await call(this.url, this.authToken, 'add_alert', params)
-    let out: AddAlertOutput = JSON.parse(res)
+    let out: AddAlertOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -768,7 +783,7 @@ export class Client {
 
   async addNotification(params: AddNotificationInput): Promise<AddNotificationOutput> {
     let res = await call(this.url, this.authToken, 'add_notification', params)
-    let out: AddNotificationOutput = JSON.parse(res)
+    let out: AddNotificationOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -778,7 +793,7 @@ export class Client {
 
   async addProject(params: AddProjectInput): Promise<AddProjectOutput> {
     let res = await call(this.url, this.authToken, 'add_project', params)
-    let out: AddProjectOutput = JSON.parse(res)
+    let out: AddProjectOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -788,7 +803,7 @@ export class Client {
 
   async addSearch(params: AddSearchInput): Promise<AddSearchOutput> {
     let res = await call(this.url, this.authToken, 'add_search', params)
-    let out: AddSearchOutput = JSON.parse(res)
+    let out: AddSearchOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -798,7 +813,7 @@ export class Client {
 
   async addToken(params: AddTokenInput): Promise<AddTokenOutput> {
     let res = await call(this.url, this.authToken, 'add_token', params)
-    let out: AddTokenOutput = JSON.parse(res)
+    let out: AddTokenOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -808,7 +823,7 @@ export class Client {
 
   async getAlert(params: GetAlertInput): Promise<GetAlertOutput> {
     let res = await call(this.url, this.authToken, 'get_alert', params)
-    let out: GetAlertOutput = JSON.parse(res)
+    let out: GetAlertOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -818,7 +833,7 @@ export class Client {
 
   async getAlerts(params: GetAlertsInput): Promise<GetAlertsOutput> {
     let res = await call(this.url, this.authToken, 'get_alerts', params)
-    let out: GetAlertsOutput = JSON.parse(res)
+    let out: GetAlertsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -828,7 +843,7 @@ export class Client {
 
   async getBooleanFieldStats(params: GetBooleanFieldStatsInput): Promise<GetBooleanFieldStatsOutput> {
     let res = await call(this.url, this.authToken, 'get_boolean_field_stats', params)
-    let out: GetBooleanFieldStatsOutput = JSON.parse(res)
+    let out: GetBooleanFieldStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -838,7 +853,7 @@ export class Client {
 
   async getCount(params: GetCountInput): Promise<GetCountOutput> {
     let res = await call(this.url, this.authToken, 'get_count', params)
-    let out: GetCountOutput = JSON.parse(res)
+    let out: GetCountOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -848,7 +863,7 @@ export class Client {
 
   async getDiscoveredFields(params: GetDiscoveredFieldsInput): Promise<GetDiscoveredFieldsOutput> {
     let res = await call(this.url, this.authToken, 'get_discovered_fields', params)
-    let out: GetDiscoveredFieldsOutput = JSON.parse(res)
+    let out: GetDiscoveredFieldsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -858,7 +873,7 @@ export class Client {
 
   async getInstanceConfig(): Promise<GetInstanceConfigOutput> {
     let res = await call(this.url, this.authToken, 'get_instance_config')
-    let out: GetInstanceConfigOutput = JSON.parse(res)
+    let out: GetInstanceConfigOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -868,7 +883,7 @@ export class Client {
 
   async getNotification(params: GetNotificationInput): Promise<GetNotificationOutput> {
     let res = await call(this.url, this.authToken, 'get_notification', params)
-    let out: GetNotificationOutput = JSON.parse(res)
+    let out: GetNotificationOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -878,7 +893,7 @@ export class Client {
 
   async getNotifications(params: GetNotificationsInput): Promise<GetNotificationsOutput> {
     let res = await call(this.url, this.authToken, 'get_notifications', params)
-    let out: GetNotificationsOutput = JSON.parse(res)
+    let out: GetNotificationsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -888,7 +903,7 @@ export class Client {
 
   async getNumericFieldStats(params: GetNumericFieldStatsInput): Promise<GetNumericFieldStatsOutput> {
     let res = await call(this.url, this.authToken, 'get_numeric_field_stats', params)
-    let out: GetNumericFieldStatsOutput = JSON.parse(res)
+    let out: GetNumericFieldStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -898,7 +913,7 @@ export class Client {
 
   async getProjectStats(params: GetProjectStatsInput): Promise<GetProjectStatsOutput> {
     let res = await call(this.url, this.authToken, 'get_project_stats', params)
-    let out: GetProjectStatsOutput = JSON.parse(res)
+    let out: GetProjectStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -908,7 +923,7 @@ export class Client {
 
   async getProjects(): Promise<GetProjectsOutput> {
     let res = await call(this.url, this.authToken, 'get_projects')
-    let out: GetProjectsOutput = JSON.parse(res)
+    let out: GetProjectsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -918,7 +933,7 @@ export class Client {
 
   async getSearches(params: GetSearchesInput): Promise<GetSearchesOutput> {
     let res = await call(this.url, this.authToken, 'get_searches', params)
-    let out: GetSearchesOutput = JSON.parse(res)
+    let out: GetSearchesOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -928,7 +943,7 @@ export class Client {
 
   async getStringFieldStats(params: GetStringFieldStatsInput): Promise<GetStringFieldStatsOutput> {
     let res = await call(this.url, this.authToken, 'get_string_field_stats', params)
-    let out: GetStringFieldStatsOutput = JSON.parse(res)
+    let out: GetStringFieldStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -938,7 +953,7 @@ export class Client {
 
   async getTimeseries(params: GetTimeseriesInput): Promise<GetTimeseriesOutput> {
     let res = await call(this.url, this.authToken, 'get_timeseries', params)
-    let out: GetTimeseriesOutput = JSON.parse(res)
+    let out: GetTimeseriesOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -948,7 +963,7 @@ export class Client {
 
   async getTokens(): Promise<GetTokensOutput> {
     let res = await call(this.url, this.authToken, 'get_tokens')
-    let out: GetTokensOutput = JSON.parse(res)
+    let out: GetTokensOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -958,7 +973,7 @@ export class Client {
 
   async query(params: QueryInput): Promise<QueryOutput> {
     let res = await call(this.url, this.authToken, 'query', params)
-    let out: QueryOutput = JSON.parse(res)
+    let out: QueryOutput = JSON.parse(res, this.decoder)
     return out
   }
 
@@ -1008,7 +1023,7 @@ export class Client {
 
   async search(params: SearchInput): Promise<SearchOutput> {
     let res = await call(this.url, this.authToken, 'search', params)
-    let out: SearchOutput = JSON.parse(res)
+    let out: SearchOutput = JSON.parse(res, this.decoder)
     return out
   }
 
