@@ -2,10 +2,10 @@
 all: dist dist.browser
 
 dist: src/index.ts
-	@tsc -p tsconfig.json
+	@tsc --declaration -p tsconfig.json
 
 dist.browser: src/index.ts
-	@tsc -p tsconfig.browser.json
+	@tsc --declaration -p tsconfig.browser.json
 
 src/index.ts: $(SCHEMA)
 	@echo "==> create $@"
