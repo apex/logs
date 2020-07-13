@@ -691,41 +691,60 @@ interface UpdateSearchInput {
 }
 
 
-let fetch = typeof window !== 'undefined' ? window.fetch : null
-if(!fetch) {
-  fetch = require('node-fetch')
-}
-
+// fetch for Node
+const fetch = (typeof window == 'undefined' || window.fetch == null)
+// @ts-ignore
+  ? require('node-fetch')
+  : window.fetch
 
 /**
-* Call method with params via a POST request.
-*/
+ * ClientError is an API client error providing the HTTP status code and error type.
+ */
 
-async function call(url: string, authToken: string, method: string, params?: any): Promise<string> {
- const res = await fetch(url + '/' + method, {
-	 method: 'POST',
-	 body: JSON.stringify(params),
-	 headers: {
-		 'Content-Type': 'application/json',
-		 'Authorization': `Bearer ${authToken}`
-	 }
- })
+class ClientError extends Error {
+  status: number;
+  type?: string;
 
- // we have an error, try to parse a well-formed json
- // error response, otherwise default to status code
- if (res.status >= 300) {
-	 let err
-	 try {
-		 const { type, message } = await res.json()
-		 err = new Error(message)
-		 err.type = type
-	 } catch {
-		 err = new Error(`${res.status} ${res.statusText}`)
-	 }
-	 throw err
- }
+  constructor(status: number, message?: string, type?: string) {
+    super(message)
+    this.status = status
+    this.type = type
+  }
+}
 
- return res.text()
+/**
+ * Call method with params via a POST request.
+ */
+
+async function call(url: string, method: string, authToken?: string, params?: any): Promise<string> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  }
+  
+  if (authToken != null) {
+    headers['Authorization'] = `Bearer ${authToken}`
+  }
+  
+  const res = await fetch(url + '/' + method, {
+    method: 'POST',
+    body: JSON.stringify(params),
+    headers
+  })
+
+  // we have an error, try to parse a well-formed json
+  // error response, otherwise default to status code
+  if (res.status >= 300) {
+    let err
+    try {
+      const { type, message } = await res.json()
+      err = new ClientError(res.status, message, type)
+    } catch {
+      err = new ClientError(res.status, res.statusText)
+    }
+    throw err
+  }
+
+  return res.text()
 }
 
 
@@ -738,7 +757,7 @@ const reISO8601 = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\
 export class Client {
 
   private url: string
-  private authToken: string
+  private authToken?: string
 
   /**
    * Initialize.
@@ -764,7 +783,7 @@ export class Client {
    */
 
   async addAlert(params: AddAlertInput): Promise<AddAlertOutput> {
-    let res = await call(this.url, this.authToken, 'add_alert', params)
+    let res = await call(this.url, 'add_alert', this.authToken, params)
     let out: AddAlertOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -774,7 +793,7 @@ export class Client {
    */
 
   async addEvents(params: AddEventsInput) {
-    await call(this.url, this.authToken, 'add_events', params)
+    await call(this.url, 'add_events', this.authToken, params)
   }
 
   /**
@@ -782,7 +801,7 @@ export class Client {
    */
 
   async addNotification(params: AddNotificationInput): Promise<AddNotificationOutput> {
-    let res = await call(this.url, this.authToken, 'add_notification', params)
+    let res = await call(this.url, 'add_notification', this.authToken, params)
     let out: AddNotificationOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -792,7 +811,7 @@ export class Client {
    */
 
   async addProject(params: AddProjectInput): Promise<AddProjectOutput> {
-    let res = await call(this.url, this.authToken, 'add_project', params)
+    let res = await call(this.url, 'add_project', this.authToken, params)
     let out: AddProjectOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -802,7 +821,7 @@ export class Client {
    */
 
   async addSearch(params: AddSearchInput): Promise<AddSearchOutput> {
-    let res = await call(this.url, this.authToken, 'add_search', params)
+    let res = await call(this.url, 'add_search', this.authToken, params)
     let out: AddSearchOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -812,7 +831,7 @@ export class Client {
    */
 
   async addToken(params: AddTokenInput): Promise<AddTokenOutput> {
-    let res = await call(this.url, this.authToken, 'add_token', params)
+    let res = await call(this.url, 'add_token', this.authToken, params)
     let out: AddTokenOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -822,7 +841,7 @@ export class Client {
    */
 
   async getAlert(params: GetAlertInput): Promise<GetAlertOutput> {
-    let res = await call(this.url, this.authToken, 'get_alert', params)
+    let res = await call(this.url, 'get_alert', this.authToken, params)
     let out: GetAlertOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -832,7 +851,7 @@ export class Client {
    */
 
   async getAlerts(params: GetAlertsInput): Promise<GetAlertsOutput> {
-    let res = await call(this.url, this.authToken, 'get_alerts', params)
+    let res = await call(this.url, 'get_alerts', this.authToken, params)
     let out: GetAlertsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -842,7 +861,7 @@ export class Client {
    */
 
   async getBooleanFieldStats(params: GetBooleanFieldStatsInput): Promise<GetBooleanFieldStatsOutput> {
-    let res = await call(this.url, this.authToken, 'get_boolean_field_stats', params)
+    let res = await call(this.url, 'get_boolean_field_stats', this.authToken, params)
     let out: GetBooleanFieldStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -852,7 +871,7 @@ export class Client {
    */
 
   async getCount(params: GetCountInput): Promise<GetCountOutput> {
-    let res = await call(this.url, this.authToken, 'get_count', params)
+    let res = await call(this.url, 'get_count', this.authToken, params)
     let out: GetCountOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -862,7 +881,7 @@ export class Client {
    */
 
   async getDiscoveredFields(params: GetDiscoveredFieldsInput): Promise<GetDiscoveredFieldsOutput> {
-    let res = await call(this.url, this.authToken, 'get_discovered_fields', params)
+    let res = await call(this.url, 'get_discovered_fields', this.authToken, params)
     let out: GetDiscoveredFieldsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -872,7 +891,7 @@ export class Client {
    */
 
   async getInstanceConfig(): Promise<GetInstanceConfigOutput> {
-    let res = await call(this.url, this.authToken, 'get_instance_config')
+    let res = await call(this.url, 'get_instance_config', this.authToken)
     let out: GetInstanceConfigOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -882,7 +901,7 @@ export class Client {
    */
 
   async getNotification(params: GetNotificationInput): Promise<GetNotificationOutput> {
-    let res = await call(this.url, this.authToken, 'get_notification', params)
+    let res = await call(this.url, 'get_notification', this.authToken, params)
     let out: GetNotificationOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -892,7 +911,7 @@ export class Client {
    */
 
   async getNotifications(params: GetNotificationsInput): Promise<GetNotificationsOutput> {
-    let res = await call(this.url, this.authToken, 'get_notifications', params)
+    let res = await call(this.url, 'get_notifications', this.authToken, params)
     let out: GetNotificationsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -902,7 +921,7 @@ export class Client {
    */
 
   async getNumericFieldStats(params: GetNumericFieldStatsInput): Promise<GetNumericFieldStatsOutput> {
-    let res = await call(this.url, this.authToken, 'get_numeric_field_stats', params)
+    let res = await call(this.url, 'get_numeric_field_stats', this.authToken, params)
     let out: GetNumericFieldStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -912,7 +931,7 @@ export class Client {
    */
 
   async getProjectStats(params: GetProjectStatsInput): Promise<GetProjectStatsOutput> {
-    let res = await call(this.url, this.authToken, 'get_project_stats', params)
+    let res = await call(this.url, 'get_project_stats', this.authToken, params)
     let out: GetProjectStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -922,7 +941,7 @@ export class Client {
    */
 
   async getProjects(): Promise<GetProjectsOutput> {
-    let res = await call(this.url, this.authToken, 'get_projects')
+    let res = await call(this.url, 'get_projects', this.authToken)
     let out: GetProjectsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -932,7 +951,7 @@ export class Client {
    */
 
   async getSearches(params: GetSearchesInput): Promise<GetSearchesOutput> {
-    let res = await call(this.url, this.authToken, 'get_searches', params)
+    let res = await call(this.url, 'get_searches', this.authToken, params)
     let out: GetSearchesOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -942,7 +961,7 @@ export class Client {
    */
 
   async getStringFieldStats(params: GetStringFieldStatsInput): Promise<GetStringFieldStatsOutput> {
-    let res = await call(this.url, this.authToken, 'get_string_field_stats', params)
+    let res = await call(this.url, 'get_string_field_stats', this.authToken, params)
     let out: GetStringFieldStatsOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -952,7 +971,7 @@ export class Client {
    */
 
   async getTimeseries(params: GetTimeseriesInput): Promise<GetTimeseriesOutput> {
-    let res = await call(this.url, this.authToken, 'get_timeseries', params)
+    let res = await call(this.url, 'get_timeseries', this.authToken, params)
     let out: GetTimeseriesOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -962,7 +981,7 @@ export class Client {
    */
 
   async getTokens(): Promise<GetTokensOutput> {
-    let res = await call(this.url, this.authToken, 'get_tokens')
+    let res = await call(this.url, 'get_tokens', this.authToken)
     let out: GetTokensOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -972,7 +991,7 @@ export class Client {
    */
 
   async query(params: QueryInput): Promise<QueryOutput> {
-    let res = await call(this.url, this.authToken, 'query', params)
+    let res = await call(this.url, 'query', this.authToken, params)
     let out: QueryOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -982,7 +1001,7 @@ export class Client {
    */
 
   async removeAlert(params: RemoveAlertInput) {
-    await call(this.url, this.authToken, 'remove_alert', params)
+    await call(this.url, 'remove_alert', this.authToken, params)
   }
 
   /**
@@ -990,7 +1009,7 @@ export class Client {
    */
 
   async removeNotification(params: RemoveNotificationInput) {
-    await call(this.url, this.authToken, 'remove_notification', params)
+    await call(this.url, 'remove_notification', this.authToken, params)
   }
 
   /**
@@ -998,7 +1017,7 @@ export class Client {
    */
 
   async removeProject(params: RemoveProjectInput) {
-    await call(this.url, this.authToken, 'remove_project', params)
+    await call(this.url, 'remove_project', this.authToken, params)
   }
 
   /**
@@ -1006,7 +1025,7 @@ export class Client {
    */
 
   async removeSearch(params: RemoveSearchInput) {
-    await call(this.url, this.authToken, 'remove_search', params)
+    await call(this.url, 'remove_search', this.authToken, params)
   }
 
   /**
@@ -1014,7 +1033,7 @@ export class Client {
    */
 
   async removeToken(params: RemoveTokenInput) {
-    await call(this.url, this.authToken, 'remove_token', params)
+    await call(this.url, 'remove_token', this.authToken, params)
   }
 
   /**
@@ -1022,7 +1041,7 @@ export class Client {
    */
 
   async search(params: SearchInput): Promise<SearchOutput> {
-    let res = await call(this.url, this.authToken, 'search', params)
+    let res = await call(this.url, 'search', this.authToken, params)
     let out: SearchOutput = JSON.parse(res, this.decoder)
     return out
   }
@@ -1032,7 +1051,7 @@ export class Client {
    */
 
   async testAlert(params: TestAlertInput) {
-    await call(this.url, this.authToken, 'test_alert', params)
+    await call(this.url, 'test_alert', this.authToken, params)
   }
 
   /**
@@ -1040,7 +1059,7 @@ export class Client {
    */
 
   async updateAlert(params: UpdateAlertInput) {
-    await call(this.url, this.authToken, 'update_alert', params)
+    await call(this.url, 'update_alert', this.authToken, params)
   }
 
   /**
@@ -1048,7 +1067,7 @@ export class Client {
    */
 
   async updateNotification(params: UpdateNotificationInput) {
-    await call(this.url, this.authToken, 'update_notification', params)
+    await call(this.url, 'update_notification', this.authToken, params)
   }
 
   /**
@@ -1056,7 +1075,7 @@ export class Client {
    */
 
   async updateProject(params: UpdateProjectInput) {
-    await call(this.url, this.authToken, 'update_project', params)
+    await call(this.url, 'update_project', this.authToken, params)
   }
 
   /**
@@ -1064,7 +1083,7 @@ export class Client {
    */
 
   async updateSearch(params: UpdateSearchInput) {
-    await call(this.url, this.authToken, 'update_search', params)
+    await call(this.url, 'update_search', this.authToken, params)
   }
 
 }

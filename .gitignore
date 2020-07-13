@@ -3,3 +3,4 @@ node_modules
 dist.browser/
 dist
 js/test.ts
+deno.ts
