@@ -4,14 +4,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/apex/logs/go/logs"
+	"github.com/apex/logs"
 	"github.com/tj/assert"
 )
 
 // Test GetProjects.
 func TestService_GetProjects(t *testing.T) {
 	c := logs.Client{
-		URL:       "http://localhost:5001",
+		URL:       os.Getenv("URL"),
 		AuthToken: os.Getenv("AUTH_TOKEN"),
 	}
 
