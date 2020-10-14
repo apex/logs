@@ -2,6 +2,7 @@ package logs_test
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/apex/logs"
@@ -23,4 +24,15 @@ func TestService_GetProjects(t *testing.T) {
 	assert.NotEmpty(t, p.ID)
 	assert.NotEmpty(t, p.Description)
 	assert.NotEmpty(t, p.Name)
+}
+
+// Test erroring on HTTP.
+func TestHTTP(t *testing.T) {
+	c := logs.Client{
+		URL:       strings.Replace(os.Getenv("URL"), "https://", "http://", 1),
+		AuthToken: os.Getenv("AUTH_TOKEN"),
+	}
+
+	_, err := c.GetProjects()
+	assert.EqualError(t, err, "Client.URL must be HTTPS, not HTTP")
 }

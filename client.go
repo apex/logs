@@ -5,11 +5,17 @@ package logs
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"time"
 )
+
+// ErrInvalidScheme is returned when HTTP is used, which results in a silent failure
+// due to Cloud Run's redirection of HTTP -> HTTPs.
+var ErrInvalidScheme = errors.New("Client.URL must be HTTPS, not HTTP")
 
 // Alert represents configuration for performing alerting.
 type Alert struct {
@@ -929,6 +935,17 @@ func (e Error) Error() string {
 // call implementation.
 func call(client *http.Client, authToken, endpoint, method string, in, out interface{}) error {
 	var body io.Reader
+
+	// parse the URL
+	u, err := url.Parse(endpoint)
+	if err != nil {
+		return fmt.Errorf("parsing url: %w", err)
+	}
+
+	// ensure HTTPS
+	if u.Scheme == "http" {
+		return ErrInvalidScheme
+	}
 
 	// default client
 	if client == nil {
