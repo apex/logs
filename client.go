@@ -13,10 +13,6 @@ import (
 	"time"
 )
 
-// ErrInvalidScheme is returned when HTTP is used, which results in a silent failure
-// due to Cloud Run's redirection of HTTP -> HTTPs.
-var ErrInvalidScheme = errors.New("Client.URL must be HTTPS, not HTTP")
-
 // Alert represents configuration for performing alerting.
 type Alert struct {
 	// CreatedAt is a timestamp indicating when the alert was created. This field is read-only.
@@ -158,7 +154,7 @@ type Notification struct {
 	WebhookURL string `json:"webhook_url"`
 }
 
-// Project represents a customer application.
+// Project represents an isolated set of log events and alerts. A project can be created for each application, environment, or team within an organization depending on your preferences.
 type Project struct {
 	// CreatedAt is a timestamp indicating when the project was created. This field is read-only.
 	CreatedAt time.Time `json:"created_at"`
@@ -171,6 +167,9 @@ type Project struct {
 
 	// Location is the geographical location where the log events are stored. This field is required. Must be one of: "us-west2", "northamerica-northeast1", "us-east4", "southamerica-east1", "europe-north1", "europe-west2", "europe-west6", "asia-east2", "asia-south1", "asia-northeast2", "asia-east1", "asia-northeast1", "asia-southeast1", "australia-southeast1".
 	Location string `json:"location"`
+
+	// Mode is the storage mode, optimized for plain-text or structured logs. Both options support plain-text and structured logging, however, the structured mode shards on the `message` value, restricting its length to 1024 bytes. This field is required. Must be one of: "plain_text", "structured".
+	Mode string `json:"mode"`
 
 	// Name is the human-friendly project name. This field is required.
 	Name string `json:"name"`
@@ -707,16 +706,6 @@ type UpdateSearchInput struct {
 	Search Search `json:"search"`
 }
 
-// oneOf returns true if s is in the values.
-func oneOf(s string, values []string) bool {
-	for _, v := range values {
-		if s == v {
-			return true
-		}
-	}
-	return false
-}
-
 // Client is the API client.
 type Client struct {
 	// URL is the required API endpoint address.
@@ -915,6 +904,9 @@ func (c *Client) UpdateProject(in UpdateProjectInput) error {
 func (c *Client) UpdateSearch(in UpdateSearchInput) error {
 	return call(c.HTTPClient, c.AuthToken, c.URL, "update_search", in, nil)
 }
+
+// ErrInvalidScheme is returned when HTTP is used instead of HTTPS.
+var ErrInvalidScheme = errors.New("Client.URL must be HTTPS, not HTTP")
 
 // Error is an error returned by the client.
 type Error struct {
